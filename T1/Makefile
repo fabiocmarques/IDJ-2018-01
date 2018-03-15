@@ -69,7 +69,7 @@ else
 	@mkdir -p $(DEP_PATH) $(BIN_PATH)
 endif
 
-	$(CC) $(DEP_FLAGS) -c -o $@ $^ $(DIRECTIVES)\
+	$(CC) $(DEP_FLAGS) -c -o $@ $< $(DIRECTIVES)
 	
 -include $(DEP_FILES)
 
@@ -81,7 +81,7 @@ clean:
 
 .PHONY: debug clean release
 
-print-% : @echo $* = $($*)
+print-% : ; @echo $* = $($*)
 
 debug: DIRECTIVES += -ggdb -O0
 debug: all

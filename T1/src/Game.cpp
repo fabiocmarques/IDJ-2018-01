@@ -7,9 +7,11 @@
 
 #include "../include/Game.h"
 
+Game *Game::instance;
+
 Game& Game::GetInstance() {
 
-    if(instance == nullptr){
+    if(Game::instance == nullptr){
         instance = new Game("Fabio Marques - 140039082", 1024, 600);
     }
 
@@ -86,5 +88,11 @@ SDL_Renderer* Game::GetRenderer() {
 }
 
 void Game::Run() {
+    while(!state->QuitRequested()){
+        state->Update(0);
+        state->Render();
 
+        SDL_RenderPresent(renderer);
+        SDL_Delay(33);
+    }
 }
