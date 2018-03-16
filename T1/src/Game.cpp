@@ -12,7 +12,7 @@ Game *Game::instance;
 Game& Game::GetInstance() {
 
     if(Game::instance == nullptr){
-        instance = new Game("Fabio Marques - 140039082", 1024, 600);
+        instance = new Game("Fabio Marques - 140039082", STD_WIDTH, STD_HEIGHT);
     }
 
     return *instance;

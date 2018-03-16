@@ -2,6 +2,9 @@
 // Created by fabio on 14/03/18.
 //
 
+#define STD_WIDTH 1024
+#define STD_HEIGHT 600
+
 #define INCLUDE_SDL
 #include "SDL_include.h"
 

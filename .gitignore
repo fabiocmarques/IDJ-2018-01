@@ -2,3 +2,13 @@
 */cmake-build-debug
 */.idea
 */140039082_FabioMarques
+
+*.exe
+
+T1/SDL2_image\.dll
+
+T1/SDL2_mixer\.dll
+
+T1/SDL2_ttf\.dll
+
+T1/SDL2\.dll

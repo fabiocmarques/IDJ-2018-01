@@ -3,8 +3,9 @@
 //
 
 #include "../include/State.h"
+#include "../include/Game.h"
 
-State::State() : bg() {
+State::State() : bg("../img/ocean.jpg") {
     quitRequested = false;
 }
 
@@ -17,7 +18,7 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-    bg.Render(200, 200);
+    bg.Render(STD_WIDTH, STD_HEIGHT);
 }
 
 bool State::QuitRequested() {

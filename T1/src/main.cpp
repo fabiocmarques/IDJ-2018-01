@@ -4,7 +4,7 @@
 #include "../include/Game.h"
 
 int main(int argc, char** argv){
-    Game game = Game::GetInstance();
+    Game::GetInstance().Run();
 
     return 0;
 }
