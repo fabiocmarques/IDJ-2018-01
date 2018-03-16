@@ -24,6 +24,7 @@ void Sprite::Open(string file) {
 
     texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
     if(texture == nullptr){
+        cout << "Erro: " << SDL_GetError() << endl;
         cout << "Fail to open the image: " << file << " .";
         exit(1);
     }

@@ -12,3 +12,11 @@ T1/SDL2_mixer\.dll
 T1/SDL2_ttf\.dll
 
 T1/SDL2\.dll
+
+*.dll
+
+*.a
+
+*.la
+
+T1/sdl2-config

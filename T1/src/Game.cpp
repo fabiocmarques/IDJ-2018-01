@@ -21,6 +21,7 @@ Game& Game::GetInstance() {
 Game::Game(string t, int w, int h) {
     if(instance != nullptr){
         cout << "Existing Game instance when the constructor is called.";
+        exit(1);
     }
 
     instance = this;
@@ -57,6 +58,8 @@ Game::Game(string t, int w, int h) {
         cout << "Fail on creating renderer.";
         exit(1);
     }
+
+    state = new State();
 }
 
 Game::~Game(){
