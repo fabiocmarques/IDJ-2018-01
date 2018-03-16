@@ -7,7 +7,7 @@
 
 #include "../include/Game.h"
 
-Game *Game::instance;
+Game *Game::instance = nullptr;
 
 Game& Game::GetInstance() {
 
@@ -19,6 +19,8 @@ Game& Game::GetInstance() {
 }
 
 Game::Game(string t, int w, int h) {
+
+    int img_flags = (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     if(instance != nullptr){
         cout << "Existing Game instance when the constructor is called.";
         exit(1);
@@ -28,13 +30,18 @@ Game::Game(string t, int w, int h) {
 
     // Inicializando a SDL
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0){
-        cout << "Error on initializing SDL.";
+        cout << "Error on initializing SDL (SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER).";
         cout << "Last error message: " << SDL_GetError();
         exit(1);
     }
 
     // Carregando loaders de formato de imagens
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+    if(IMG_Init(img_flags) != img_flags){
+        cout << "Error on initializing SDL (img_flags).";
+        cout << "Last error message: " << SDL_GetError();
+        exit(1);
+    }
+
 
     // Carregando loaders de audio, por default 0 ja vem com ".wav"
     Mix_Init(0);

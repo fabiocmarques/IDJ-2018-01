@@ -1,4 +1,3 @@
-
 # Linux
 
 CC = g++
@@ -12,10 +11,13 @@ DIRECTIVES = -std=c++11 -Wall -Wextra -c -I $(HEADER_PATH)
 
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 
-HEADER_PATH = include 
+HEADER_PATH = include
 SRC_PATH = src
 BIN_PATH = bin
 DEP_PATH = dep
+
+ENGINE_SRC_PATH = engine/src
+ENGINE_HEADER_PATH = engine/include
 
 CPP_FILES = $(wildcard $(SRC_PATH)/*.cpp)
 OBJ_FILES = $(addprefix $(BIN_PATH)/,$(notdir $(CPP_FILES:.cpp=.o)))
@@ -59,7 +61,7 @@ $(EXEC): $(OBJ_FILES)
 	$(CC) -o $@ $^ $(LIBS)
 
 
-# Criação dos arquivos obejto caso eles não existam, um para cada arquivo "cpp"	
+# Criação dos arquivos obejto caso eles não existam, um para cada arquivo "cpp"
 $(BIN_PATH)/%.o: $(SRC_PATH)/%.cpp
 
 ifeq ($(OS), Windows_NT)
@@ -70,13 +72,13 @@ else
 endif
 
 	$(CC) $(DEP_FLAGS) -c -o $@ $< $(DIRECTIVES)
-	
+
 -include $(DEP_FILES)
 
 clean:
 	$(RMDIR) $(BIN_PATH) $(DEP_PATH)
 	$(RM) $(EXEC)
-	
+
 .PRECIOUS: $(DEP_PATH)/%.d
 
 .PHONY: debug clean release

@@ -5,14 +5,14 @@
 #include "../include/State.h"
 #include "../include/Game.h"
 
-State::State() : bg("img/ocean.jpg") {
+State::State() : bg("assets/img/ocean.jpg") {
     LoadAssets();
     quitRequested = false;
     music.Play();
 }
 
 void State::LoadAssets() {
-    music.Open("audio/stageState.ogg");
+    music.Open("assets/audio/stageState.ogg");
 }
 
 void State::Update(float dt) {
