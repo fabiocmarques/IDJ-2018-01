@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-project(T2)
+project(T1)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -12,4 +12,5 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(BEFORE include)
 include_directories(BEFORE dep)
 
-add_executable(140039082_FabioMarques src/main.cpp)
+add_executable(140039082_FabioMarques src/main.cpp src/Game.cpp src/State.cpp src/Sprite.cpp src/Music.cpp
+        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/Face.cpp include/Face.h)

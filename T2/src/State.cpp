@@ -5,7 +5,7 @@
 #include "../include/State.h"
 #include "../include/Game.h"
 
-State::State() : bg("assets/img/ocean.jpg") {
+State::State() : bg((GameObject &) new GameObject(), "assets/img/ocean.jpg") {
     LoadAssets();
     quitRequested = false;
     music.Play();
@@ -20,7 +20,7 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-    bg.Render(0, 0);
+    bg.Render();
 }
 
 bool State::QuitRequested() {

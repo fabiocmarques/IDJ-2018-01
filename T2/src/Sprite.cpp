@@ -5,12 +5,6 @@
 #include "../include/Sprite.h"
 #include "../include/Game.h"
 
-Sprite::Sprite() : texture(nullptr) { }
-
-Sprite::Sprite(string file) : texture(nullptr) {
-    Open(file);
-}
-
 Sprite::~Sprite() {
     if(texture != nullptr){
         SDL_DestroyTexture(texture);
@@ -31,6 +25,9 @@ void Sprite::Open(string file) {
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
+    associated.box.w = width;
+    associated.box.h = height;
+
     SetClip(0, 0, width, height);
 }
 
@@ -41,10 +38,10 @@ void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y) {
+void Sprite::Render() {
     SDL_Rect dstrect;
-    dstrect.x = x;
-    dstrect.y = y;
+    dstrect.x = this->associated.box.x;
+    dstrect.y = this->associated.box.y;
     dstrect.w = clipRect.w;
     dstrect.h = clipRect.h;
 
@@ -60,6 +57,22 @@ int Sprite::GetHeight() {
 }
 
 bool Sprite::IsOpen() {
-    return (texture != nullptr) ? true : false;
+    return (texture != nullptr);
 }
+
+
+void Sprite::Update(float dt) {
+
+}
+
+bool Sprite::Is(string type) {
+    return (type == "Sprite");
+}
+
+Sprite::Sprite(GameObject &associated) : Component(associated) {}
+
+Sprite::Sprite(GameObject &associated, string file) : Component(associated) {
+    Open(file);
+}
+
 
