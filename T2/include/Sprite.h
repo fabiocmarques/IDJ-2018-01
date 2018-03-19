@@ -26,6 +26,7 @@ class Sprite : public Component{
 public:
     Sprite(GameObject &associated);
     Sprite(GameObject &associated, string file);
+
     ~Sprite();
 
     void Open(string file);

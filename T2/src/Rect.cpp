@@ -25,7 +25,7 @@ float Rect::DistRecs(Rect r) {
     return v.Dist(r.CenterRec());
 }
 
-bool Rect::InsideRect(Vec2 v) {
+bool Rect::Contains(Vec2 v) {
     if(v.x < (this->w + this->x) && v.x >= this->x && v.y < (this->h + this->y) && v.y >= this->y ){
         return true;
     } else {

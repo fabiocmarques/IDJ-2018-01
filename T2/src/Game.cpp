@@ -98,6 +98,7 @@ SDL_Renderer* Game::GetRenderer() {
 }
 
 void Game::Run() {
+    cout << "Chegou no run." << endl;
     while(!state->QuitRequested()){
         state->Update(0);
         state->Render();

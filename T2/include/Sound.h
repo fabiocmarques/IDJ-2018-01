@@ -23,9 +23,10 @@ class Sound : public Component {
 public:
     Sound(GameObject &associated);
     Sound(GameObject &associated, string file);
+    ~Sound();
 
     void Play(int times = 1);
-    void Stop(int msToStop = 500);
+    void Stop();
     void Open(string file);
     bool IsOpen();
 

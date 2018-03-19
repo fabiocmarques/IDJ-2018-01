@@ -10,16 +10,30 @@
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
+#include "GameObject.h"
+#include "Face.h"
+#include "Sound.h"
+
+#include <cmath>
+
+#include <vector>
+#include <memory>
+
+using namespace std;
 
 
 class State {
 
-    Sprite bg;
     Music music;
     bool quitRequested;
+    vector<unique_ptr<GameObject>> objectArray;
+
+    void Input();
+    void AddObject(int mouseX, int mouseY);
 
 public:
     State();
+    ~State();
 
     bool QuitRequested();
     void LoadAssets();

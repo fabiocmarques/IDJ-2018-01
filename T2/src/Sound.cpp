@@ -14,11 +14,11 @@ Sound::Sound(GameObject &associated, string file) : Component(associated), chunk
 
 void Sound::Play(int times) {
     if(chunk != nullptr){
-        Mix_PlayChannel(channel, chunk, times);
+        Mix_PlayChannel(-1, chunk, times);
     }
 }
 
-void Sound::Stop(int msToStop) {
+void Sound::Stop() {
     Mix_HaltChannel(channel);
 }
 
@@ -45,4 +45,11 @@ void Sound::Render() {
 
 bool Sound::Is(string type) {
     return (type == "Sound");
+}
+
+Sound::~Sound() {
+    if(chunk != nullptr){
+        Stop();
+        Mix_FreeChunk(chunk);
+    }
 }

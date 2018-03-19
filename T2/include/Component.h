@@ -10,7 +10,9 @@
 
 using namespace std;
 
+
 class Component {
+
 public:
     Component(GameObject& associated);
     virtual ~Component();

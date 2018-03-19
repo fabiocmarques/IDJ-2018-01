@@ -5,6 +5,7 @@
 #ifndef T1_VEC2_H
 #define T1_VEC2_H
 
+#include <cmath>
 
 class Vec2 {
 
@@ -30,7 +31,9 @@ public:
     // Inclinacao entre 2 vetores.
     float Incl(Vec2 v);
     // Rotaciona o vetor pelo angulo 'ang'.
-    Vec2 Rotation(float ang);
+    Vec2 GetRotated(float ang);
+
+    Vec2 operator+(const Vec2& v);
 };
 
 

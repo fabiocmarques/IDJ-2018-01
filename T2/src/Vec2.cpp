@@ -3,7 +3,6 @@
 //
 
 #include "Vec2.h"
-#include <cmath>
 
 Vec2::Vec2() {
     x = 0;
@@ -56,11 +55,17 @@ float Vec2::IncX() {
     return (float)atan2(this->x, this->y);
 }
 
-Vec2 Vec2::Rotation(float ang) {
-    return Vec2();
-}
-
 float Vec2::Incl(Vec2 v) {
     Vec2 ret = this->Sum(v, false);
     return ret.IncX();
 }
+
+Vec2 Vec2::GetRotated(float ang) {
+    return Vec2(x*cos(ang) - y*sin(ang), y*cos(ang) + x*sin(ang));
+}
+
+Vec2 Vec2::operator+(const Vec2& v) {
+    return Vec2(x + v.x, y + v.y );
+}
+
+

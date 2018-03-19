@@ -9,6 +9,11 @@ include_directories(/usr/include/SDL2)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
+include_directories(C:/SDL2­2.0.8/include/SDL2)
+link_directories(C:/SDL2­2.0.8/lib)
+
+link_libraries(Mingw32 SDL2main SDL2_image SDL2_ttf SDL2_mixer SDL2)
+
 include_directories(BEFORE include)
 include_directories(BEFORE dep)
 

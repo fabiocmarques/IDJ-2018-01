@@ -19,7 +19,7 @@ public:
     Rect SumVec2(Vec2 v);
     Vec2 CenterRec();
     float DistRecs(Rect r);
-    bool InsideRect(Vec2 v);
+    bool Contains(Vec2 v);
 
 
 };

@@ -6,11 +6,15 @@
 #define T1_GAMEOBJECT_H
 
 #include <vector>
-#include "Component.h"
 #include "Rect.h"
 #include <algorithm>
+#include <string>
+#include <iostream>
+#include <memory>
 
 using namespace std;
+
+class Component;
 
 class GameObject {
     bool isDead;
@@ -29,8 +33,11 @@ public:
     Component* GetComponent(string type);
 
     Rect box;
-
 };
+
+
+
+
 
 
 #endif //T1_GAMEOBJECT_H

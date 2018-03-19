@@ -3,6 +3,7 @@
 //
 
 #include "GameObject.h"
+#include "Component.h"
 
 GameObject::GameObject() : isDead(false) {
 
@@ -19,13 +20,13 @@ GameObject::~GameObject() {
 }
 
 void GameObject::Update(float dt) {
-    for (int i = 0; i < components.size() ; ++i) {
+    for (int i = 0; i < (int)components.size() ; ++i) {
         (*components[i]).Update(dt);
     }
 }
 
 void GameObject::Render() {
-    for (int i = 0; i < components.size() ; ++i) {
+    for (int i = 0; i < (int)components.size() ; ++i) {
         (*components[i]).Render();
     }
 }
@@ -39,14 +40,15 @@ void GameObject::RequestDelete() {
 }
 
 void GameObject::AddComponent(Component *cpt) {
-    components.push_back(cpt);
+    components.emplace_back(cpt);
 }
 
 void GameObject::RemoveComponent(Component *cpt) {
     if(!components.empty()){
         int i = 0;
-        for( ; i < components.size(); ++i){
+        for( ; i < (int)components.size(); ++i){
             if(components[i] == cpt){
+                cout << "Removing obj." << endl;
                 components.erase(components.begin() + i);
             }
         }
@@ -56,7 +58,7 @@ void GameObject::RemoveComponent(Component *cpt) {
 Component *GameObject::GetComponent(string type) {
     if(!components.empty()){
         int i = 0;
-        for( ; i < components.size(); ++i) {
+        for( ; i < (int)components.size(); ++i) {
             if ((*components[i]).Is(type) ) {
                 return components[i];
             }

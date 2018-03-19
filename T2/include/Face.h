@@ -7,6 +7,10 @@
 
 
 #include "Component.h"
+#include "GameObject.h"
+#include "Sound.h"
+#include <memory>
+#include <vector>
 
 class Face : public Component {
     int hitpoints;
