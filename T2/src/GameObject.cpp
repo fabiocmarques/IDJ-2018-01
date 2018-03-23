@@ -50,6 +50,7 @@ void GameObject::RemoveComponent(Component *cpt) {
             if(components[i] == cpt){
                 cout << "Removing obj." << endl;
                 components.erase(components.begin() + i);
+                break;
             }
         }
     }

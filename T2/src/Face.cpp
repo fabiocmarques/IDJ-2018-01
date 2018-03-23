@@ -11,12 +11,14 @@ void Face::Damage(int damage) {
     hitpoints -= damage;
 
     if(hitpoints <= 0){
-        Sound* c = (Sound*)associated.GetComponent("Sound");
-        if(c != nullptr){
-            (*c).Play();
-        }
+//        Sound* c = (Sound*)associated.GetComponent("Sound");
+//        if(c != nullptr){
+//            (*c).Play();
+//        }
         associated.RequestDelete();
+        cout << "Aqui.";
         associated.RemoveComponent(this);
+        cout << "Ali.";
     }
 }
 
