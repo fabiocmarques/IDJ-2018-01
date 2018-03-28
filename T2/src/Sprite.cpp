@@ -69,12 +69,12 @@ bool Sprite::Is(string type) {
     return (type == "Sprite");
 }
 
-Sprite::Sprite(GameObject &associated) : Component(associated), width(0), height(0) {
+Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr), width(0), height(0) {
 
 }
 
 
-Sprite::Sprite(GameObject &associated, string file) : Component(associated), width(0), height(0) {
+Sprite::Sprite(GameObject &associated, string file) : Component(associated), texture(nullptr), width(0), height(0) {
     Open(file);
 }
 

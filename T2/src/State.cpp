@@ -7,6 +7,7 @@
 State::State() {
     unique_ptr<GameObject> go(new GameObject());
 
+    LoadAssets();
 
     go->AddComponent(new Sprite(*go, "assets/img/ocean.jpg"));
     go->box.x = 0;
@@ -14,7 +15,7 @@ State::State() {
 
    objectArray.emplace_back(move(go));
 
-    LoadAssets();
+
     quitRequested = false;
     music.Play();
 }
@@ -32,14 +33,17 @@ void State::Update(float dt) {
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {
         if(objectArray[i]->IsDead()){
-            objectArray.erase(objectArray.begin() + i);
+            if(!Mix_Playing(10)){
+                objectArray.erase(objectArray.begin() + i);
+            }
+
         }
     }
 }
 
 void State::Render() {
     for (int i = 0; i < (int)objectArray.size(); ++i) {
-        (*objectArray[i]).Render();
+        objectArray[i]->Render();
     }
 }
 
@@ -94,7 +98,7 @@ void State::Input() {
                 // Se não, crie um objeto
             else {
                 Vec2 objPos = Vec2( 200, 0 ).GetRotated( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2( mouseX, mouseY );
-                AddObject((int)objPos.x, (int)objPos.y);
+                AddObject(objPos.x, objPos.y);
             }
         }
     }
@@ -104,17 +108,17 @@ State::~State() {
     objectArray.clear();
 }
 
-void State::AddObject(int mouseX, int mouseY) {
+void State::AddObject(float mouseX, float mouseY) {
     unique_ptr<GameObject> go(new GameObject());
-    Sprite *spr = new Sprite(*go, "assets/img/penguinface.png");
+    Sprite *spr = new Sprite((*go), "assets/img/penguinface.png");
     go->AddComponent(spr);
     go->box.x = mouseX;
     go->box.y = mouseY;
     go->box.h = spr->GetHeight();
     go->box.w = spr->GetWidth();
 
-    go->AddComponent(new Sound(*go, "assets/audio/boom.wav"));
-    go->AddComponent(new Face(*go));
+    go->AddComponent(new Sound((*go), "assets/audio/boom.wav"));
+    go->AddComponent(new Face((*go)));
 
    objectArray.emplace_back(move(go));
 }

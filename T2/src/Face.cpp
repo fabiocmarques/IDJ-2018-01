@@ -10,15 +10,16 @@ Face::Face(GameObject &associated) : Component(associated), hitpoints(30) {}
 void Face::Damage(int damage) {
     hitpoints -= damage;
 
+    //cout << "Vida: " << hitpoints << endl;
+
     if(hitpoints <= 0){
-//        Sound* c = (Sound*)associated.GetComponent("Sound");
-//        if(c != nullptr){
-//            (*c).Play();
-//        }
+        Sound* c = (Sound*)associated.GetComponent("Sound");
+        if(c != nullptr) {
+            cout << "Start." << endl;
+            c->Play();
+            cout << "Finish." << endl;
+        }
         associated.RequestDelete();
-        cout << "Aqui.";
-        associated.RemoveComponent(this);
-        cout << "Ali.";
     }
 }
 

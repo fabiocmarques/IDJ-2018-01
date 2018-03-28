@@ -14,12 +14,12 @@ Sound::Sound(GameObject &associated, string file) : Component(associated), chunk
 
 void Sound::Play(int times) {
     if(chunk != nullptr){
-        Mix_PlayChannel(-1, chunk, times);
+        Mix_PlayChannel(10, chunk, times-1);
     }
 }
 
 void Sound::Stop() {
-    Mix_HaltChannel(channel);
+    Mix_HaltChannel(-1);
 }
 
 void Sound::Open(string file) {

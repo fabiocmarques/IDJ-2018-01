@@ -29,7 +29,7 @@ class State {
     vector<unique_ptr<GameObject>> objectArray;
 
     void Input();
-    void AddObject(int mouseX, int mouseY);
+    void AddObject(float mouseX, float mouseY);
 
 public:
     State();
