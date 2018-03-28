@@ -6,12 +6,14 @@
 
 State::State() {
     unique_ptr<GameObject> go(new GameObject());
-
+    Sprite *spr = new Sprite(*go, "assets/img/ocean.jpg");
     LoadAssets();
 
-    go->AddComponent(new Sprite(*go, "assets/img/ocean.jpg"));
+    go->AddComponent(spr);
     go->box.x = 0;
     go->box.y = 0;
+    go->box.h = spr->GetHeight();
+    go->box.w = spr->GetWidth();
 
    objectArray.emplace_back(move(go));
 
