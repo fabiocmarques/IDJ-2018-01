@@ -30,7 +30,7 @@ void TileMap::Load(string file) {
                 for (j = 0; j < mapWidth; ++j) {
                     myfile >> p;
                     myfile >> buff;
-                    tileMatrix.emplace_back(p - 1);
+                    tileMatrix.emplace_back(--p);
                 }
             }
         }
@@ -53,25 +53,47 @@ int &TileMap::At(int x, int y, int z) {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-    int startIndex = layer*mapWidth*mapDepth;
+    int i, j, index;
+    int tWidth = tileSet->GetTileWidth(), tHeight = tileSet->GetTileHeight();
 
-    for (int i = 0; i < mapDepth*mapDepth; ++i) {
-        tileSet->RenderTile();
+
+    for (i = 0; i < mapHeight; ++i) {
+        for (j = 0; j < mapWidth; ++j) {
+            index = At(j, i, layer);
+            if(index > -1){
+                tileSet->RenderTile(index, j*tWidth, i*tHeight);
+            }
+        }
     }
 }
 
 void TileMap::Render() {
 
+    for (int i = 0; i < mapDepth; ++i) {
+        RenderLayer(i, (int)associated.box.x, (int)associated.box.y);
+    }
 }
 
 int TileMap::GetWidth() {
-    return 0;
+    return mapWidth;
 }
 
 int TileMap::GetHeight() {
-    return 0;
+    return mapHeight;
 }
 
 int TileMap::GetDepth() {
-    return 0;
+    return mapDepth;
+}
+
+TileMap::~TileMap() {
+    delete tileSet;
+}
+
+void TileMap::Update(float dt) {
+
+}
+
+bool TileMap::Is(string type) {
+    return type == "TileMap";
 }

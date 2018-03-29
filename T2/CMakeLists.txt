@@ -9,8 +9,12 @@ include_directories(/usr/include/SDL2)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
+#include_directories(C:/SDL2-2.0.8/include)
+#link_directories(C:/SDL2-2.0.8/lib)
+#link_libraries(Mingw32 SDL2main SDL2_image SDL2_ttf SDL2_mixer SDL2)
+
 include_directories(BEFORE include)
 include_directories(BEFORE dep)
 
 add_executable(140039082_FabioMarques src/main.cpp src/Game.cpp src/State.cpp src/Sprite.cpp src/Music.cpp
-        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/Face.cpp include/Face.h src/TileMap.cpp include/TileMap.h)
+        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/Face.cpp include/Face.h src/TileSet.cpp include/TileSet.h src/TileMap.cpp include/TileMap.h)

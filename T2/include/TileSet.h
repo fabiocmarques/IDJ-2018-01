@@ -5,6 +5,9 @@
 #ifndef T2_TILESET_H
 #define T2_TILESET_H
 
+#define TILE_WIDTH 64
+#define TILE_HEIGHT 64
+
 #include "Sprite.h"
 #include <string>
 #include <iostream>
@@ -20,6 +23,7 @@ class TileSet {
 
 public:
     TileSet(int tileWidth, int tileHeight, string file);
+    ~TileSet();
 
     void RenderTile(unsigned index, float x, float y);
     int GetTileWidth();

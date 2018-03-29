@@ -30,8 +30,8 @@ void TileSet::RenderTile(unsigned int index, float x, float y) {
     tY = index/rows;
     tX = index%rows;
 
-    tileSet.SetClip(tX, tY, tileWidth, tileHeight);
-    tileSet.Render(x, y);
+    tileSet.SetClip(tX*tileWidth, tY*tileHeight, tileWidth, tileHeight);
+    tileSet.Render((int)x, (int)y);
 }
 
 int TileSet::GetTileWidth() {
@@ -40,4 +40,7 @@ int TileSet::GetTileWidth() {
 
 int TileSet::GetTileHeight() {
     return tileHeight;
+}
+
+TileSet::~TileSet() {
 }

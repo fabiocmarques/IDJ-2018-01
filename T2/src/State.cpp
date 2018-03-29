@@ -2,12 +2,12 @@
 // Created by fabio on 15/03/18.
 //
 
+#include "TileMap.h"
 #include "State.h"
 
 State::State() {
     unique_ptr<GameObject> go(new GameObject());
-    Sprite *spr = new Sprite(*go, "assets/img/ocean.jpg");
-    LoadAssets();
+    Sprite* spr = new Sprite(*go, "assets/img/ocean.jpg");
 
     go->AddComponent(spr);
     go->box.x = 0;
@@ -16,6 +16,20 @@ State::State() {
     go->box.w = spr->GetWidth();
 
    objectArray.emplace_back(move(go));
+
+
+    unique_ptr<GameObject> go2(new GameObject());
+    TileSet* ts = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
+    TileMap* map = new TileMap(*go2, "assets/map/tileMap.txt", ts);
+    LoadAssets();
+
+    go2->AddComponent(map);
+    go2->box.x = 0;
+    go2->box.y = 0;
+    //go2->box.h = map->GetHeight()*TILE_HEIGHT;
+    //go2->box.w = map->GetWidth()*TILE_WIDTH;
+
+    objectArray.emplace_back(move(go2));
 
 
     quitRequested = false;
