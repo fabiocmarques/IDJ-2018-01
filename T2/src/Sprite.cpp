@@ -39,13 +39,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 void Sprite::Render() {
-    SDL_Rect dstrect;
-    dstrect.x = this->associated.box.x;
-    dstrect.y = this->associated.box.y;
-    dstrect.w = clipRect.w;
-    dstrect.h = clipRect.h;
-
-    SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect);
+    Render(associated.box.x, associated.box.y);
 }
 
 int Sprite::GetWidth() {
@@ -76,6 +70,16 @@ Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr)
 
 Sprite::Sprite(GameObject &associated, string file) : Component(associated), texture(nullptr), width(0), height(0) {
     Open(file);
+}
+
+void Sprite::Render(int x, int y) {
+    SDL_Rect dstrect;
+    dstrect.x = x;
+    dstrect.y = y;
+    dstrect.w = clipRect.w;
+    dstrect.h = clipRect.h;
+
+    SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect);
 }
 
 

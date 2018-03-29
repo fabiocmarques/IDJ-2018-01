@@ -38,6 +38,8 @@ public:
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
+
+    void Render(int x, int y);
 };
 
 

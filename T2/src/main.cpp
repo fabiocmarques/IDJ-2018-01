@@ -1,7 +1,12 @@
 //
 // Created by fabio on 15/03/18.
 //
-#include "Game.h"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <Game.h>
+
+using namespace std;
 
 int main(int argc, char** argv){
 
