@@ -2,6 +2,7 @@
 // Created by fabio on 15/03/18.
 //
 
+#include <Resources.h>
 #include "../include/Music.h"
 
 Music::Music() : music(nullptr) { }
@@ -23,12 +24,7 @@ void Music::Stop(int msToStop) {
 }
 
 void Music::Open(string file) {
-    music = Mix_LoadMUS(file.c_str());
-    if(music == nullptr){
-        cout << "Error: " << SDL_GetError() << endl;
-        cout << "Fail to open the image: '" << file.c_str() << "'.";
-        exit(1);
-    }
+    music = Resources::GetMusic(file);
 }
 
 bool Music::IsOpen() {
@@ -37,5 +33,4 @@ bool Music::IsOpen() {
 
 Music::~Music() {
     Stop();
-    Mix_FreeMusic(music);
 }

@@ -26,8 +26,6 @@ State::State() {
     go2->AddComponent(map);
     go2->box.x = 0;
     go2->box.y = 0;
-    //go2->box.h = map->GetHeight()*TILE_HEIGHT;
-    //go2->box.w = map->GetWidth()*TILE_WIDTH;
 
     objectArray.emplace_back(move(go2));
 

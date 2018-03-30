@@ -5,9 +5,10 @@
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 
+#include <Resources.h>
 #include "../include/Game.h"
 
-Game *Game::instance = nullptr;
+Game* Game::instance = nullptr;
 
 Game& Game::GetInstance() {
 
@@ -98,7 +99,6 @@ SDL_Renderer* Game::GetRenderer() {
 }
 
 void Game::Run() {
-    cout << "Chegou no run." << endl;
     while(!state->QuitRequested()){
         state->Update(0);
         state->Render();
@@ -106,4 +106,9 @@ void Game::Run() {
         SDL_RenderPresent(renderer);
         SDL_Delay(33);
     }
+
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
 }
+      

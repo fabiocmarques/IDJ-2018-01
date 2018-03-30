@@ -2,26 +2,16 @@
 // Created by fabio on 15/03/18.
 //
 
+#include <Resources.h>
 #include "../include/Sprite.h"
 #include "../include/Game.h"
 
 Sprite::~Sprite() {
-    if(texture != nullptr){
-        SDL_DestroyTexture(texture);
-    }
+
 }
 
 void Sprite::Open(string file) {
-    if(texture != nullptr){
-        SDL_DestroyTexture(texture);
-    }
-
-    texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
-    if(texture == nullptr){
-        cout << "Erro: " << SDL_GetError() << endl;
-        cout << "Fail to open the image: " << file << " .";
-        exit(1);
-    }
+    texture = Resources::GetImage(file);
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 

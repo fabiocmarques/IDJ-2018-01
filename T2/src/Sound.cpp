@@ -2,6 +2,7 @@
 // Created by fabio on 18/03/18.
 //
 
+#include <Resources.h>
 #include "Sound.h"
 
 Sound::Sound(GameObject &associated) : Component(associated), chunk(nullptr) {
@@ -23,12 +24,7 @@ void Sound::Stop() {
 }
 
 void Sound::Open(string file) {
-    chunk = Mix_LoadWAV(file.c_str());
-    if(chunk == nullptr){
-        cout << "Error: " << SDL_GetError() << endl;
-        cout << "Fail to open the sound: '" << file.c_str() << "'.";
-        exit(1);
-    }
+    chunk = Resources::GetSound(file);
 }
 
 bool Sound::IsOpen() {
@@ -48,8 +44,5 @@ bool Sound::Is(string type) {
 }
 
 Sound::~Sound() {
-    if(chunk != nullptr){
-        Stop();
-        Mix_FreeChunk(chunk);
-    }
+    Stop();
 }
