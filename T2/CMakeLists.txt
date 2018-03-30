@@ -17,4 +17,4 @@ include_directories(BEFORE include)
 include_directories(BEFORE dep)
 
 add_executable(140039082_FabioMarques src/main.cpp src/Game.cpp src/State.cpp src/Sprite.cpp src/Music.cpp
-        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/Face.cpp include/Face.h src/TileSet.cpp include/TileSet.h src/TileMap.cpp include/TileMap.h src/Resources.cpp include/Resources.h)
+        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/Face.cpp include/Face.h src/TileSet.cpp include/TileSet.h src/TileMap.cpp include/TileMap.h src/Resources.cpp include/Resources.h src/InputManager.cpp include/InputManager.h)
