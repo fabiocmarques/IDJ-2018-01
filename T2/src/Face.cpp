@@ -2,6 +2,7 @@
 // Created by fabio on 18/03/18.
 //
 
+#include <InputManager.h>
 #include "Face.h"
 
 
@@ -12,9 +13,9 @@ void Face::Damage(int damage) {
 
     //cout << "Vida: " << hitpoints << endl;
 
-    if(hitpoints <= 0){
-        Sound* c = (Sound*)associated.GetComponent("Sound");
-        if(c != nullptr) {
+    if (hitpoints <= 0) {
+        Sound *c = (Sound *) associated.GetComponent("Sound");
+        if (c != nullptr) {
             c->Play();
         }
         associated.RequestDelete();
@@ -30,4 +31,11 @@ void Face::Render() {
 }
 
 void Face::Update(float dt) {
+    InputManager IM = InputManager::GetInstance();
+
+    if (IM.MousePress(LEFT_MOUSE_BUTTON)) {
+        if(associated.box.Contains({IM.GetMouseX(), IM.GetMouseY()}))
+            Damage(std::rand() % 10 + 10);
+    }
+
 }

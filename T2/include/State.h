@@ -28,7 +28,6 @@ class State {
     bool quitRequested;
     vector<unique_ptr<GameObject>> objectArray;
 
-    void Input();
     void AddObject(float mouseX, float mouseY);
 
 public:
