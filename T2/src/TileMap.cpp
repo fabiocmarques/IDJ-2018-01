@@ -61,7 +61,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
         for (j = 0; j < mapWidth; ++j) {
             index = At(j, i, layer);
             if(index > -1){
-                tileSet->RenderTile(index, j*tWidth, i*tHeight);
+                tileSet->RenderTile(index, (j-cameraX)*tWidth, (i-cameraY)*tHeight);
             }
         }
     }
@@ -70,7 +70,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 void TileMap::Render() {
 
     for (int i = 0; i < mapDepth; ++i) {
-        RenderLayer(i, (int)associated.box.x, (int)associated.box.y);
+        RenderLayer(i);
     }
 }
 
