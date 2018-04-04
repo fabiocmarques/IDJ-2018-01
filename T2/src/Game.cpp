@@ -18,7 +18,7 @@ Game& Game::GetInstance() {
     return *instance;
 }
 
-Game::Game(string t, int w, int h) {
+Game::Game(string title, int width, int height) {
 
     int img_flags = (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     if(instance != nullptr){
@@ -53,7 +53,8 @@ Game::Game(string t, int w, int h) {
     Mix_AllocateChannels(32);
 
     // Inicializando a janela
-    window = SDL_CreateWindow(t.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, 0);
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
+                              0);
     if(window == nullptr){
         cout << "Fail on creating window.";
         exit(1);
@@ -98,7 +99,7 @@ SDL_Renderer* Game::GetRenderer() {
 }
 
 void Game::Run() {
-    cout << "Chegou no run." << endl;
+
     while(!state->QuitRequested()){
         state->Update(0);
         state->Render();

@@ -15,9 +15,7 @@ void Face::Damage(int damage) {
     if(hitpoints <= 0){
         Sound* c = (Sound*)associated.GetComponent("Sound");
         if(c != nullptr) {
-            cout << "Start." << endl;
             c->Play();
-            cout << "Finish." << endl;
         }
         associated.RequestDelete();
     }
