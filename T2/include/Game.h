@@ -27,7 +27,7 @@ class Game {
     SDL_Renderer* renderer;
     State *state;
 
-    Game(string t, int w, int h);
+    Game(string title, int width, int height);
 
 public:
     ~Game();
