@@ -4,6 +4,7 @@
 
 #include <InputManager.h>
 #include <Camera.h>
+#include <CameraFollower.h>
 #include "TileMap.h"
 #include "State.h"
 
@@ -11,6 +12,7 @@ State::State() {
     unique_ptr<GameObject> go(new GameObject());
     Sprite* spr = new Sprite(*go, "assets/img/ocean.jpg");
 
+    go->AddComponent(new CameraFollower(*go));
     go->AddComponent(spr);
     go->box.x = 0;
     go->box.y = 0;
@@ -51,7 +53,7 @@ void State::Update(float dt) {
 
     if(IM.KeyPress(SDLK_SPACE)){
         Vec2 objPos = Vec2( 200, 0 ).GetRotated( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2( IM.GetMouseX(), IM.GetMouseY());
-        AddObject(objPos.x+Camera::pos.x, objPos.y+Camera::pos.y);
+        AddObject(objPos.x + Camera::pos.x, objPos.y + Camera::pos.y);
     }
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {

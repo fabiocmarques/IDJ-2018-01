@@ -103,9 +103,10 @@ SDL_Renderer* Game::GetRenderer() {
 void Game::Run() {
 
     while(!state->QuitRequested()){
-        frameStart = SDL_GetTicks();
         CalculateDeltaTime();
+        frameStart = SDL_GetTicks();
         InputManager::GetInstance().Update();
+        cout << "DT: " << dt << endl;
         state->Update(dt);
         state->Render();
 
@@ -119,7 +120,7 @@ void Game::Run() {
 }
 
 void Game::CalculateDeltaTime() {
-    dt = (frameStart/1000 - dt);
+    dt = (SDL_GetTicks()/1000.0)-(frameStart/1000.0);
 }
 
 float Game::GetDeltaTime() {

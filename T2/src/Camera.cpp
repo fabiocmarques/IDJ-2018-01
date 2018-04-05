@@ -7,6 +7,8 @@
 #define STD_WIDTH 1024
 #define STD_HEIGHT 600
 
+#define SPEED 600
+
 GameObject* Camera::focus = nullptr;
 Vec2 Camera::pos = *new Vec2();
 Vec2 Camera::speed = *new Vec2();
@@ -24,24 +26,19 @@ void Camera::Update(float dt) {
         Camera::pos.x = focus->box.x + STD_WIDTH/2;
         Camera::pos.y = focus->box.y + STD_HEIGHT/2;
     } else {
-        Camera::speed.x = STD_WIDTH/(dt < 5 ? 5 : dt);
-        Camera::speed.y = STD_HEIGHT/(dt < 5 ? 5 : dt);
+        Camera::speed.x = SPEED;
+        Camera::speed.y = SPEED;
 
         InputManager IM = InputManager::GetInstance();
 
-        if(IM.KeyPress(UP_ARROW_KEY)){
-//            cout << "DT: " << dt << endl;
-//            cout << "Teste antes de Pos. X: " << Camera::pos.x << " Y: " << Camera::pos.y << endl;
-//            cout << "Teste antes de Speed. X: " << Camera::speed.x << " Y: " << Camera::speed.y << endl;
-            Camera::pos.y -= Camera::speed.y;
-//            cout << "Teste de Pos. X: " << Camera::pos.x << " Y: " << Camera::pos.y << endl;
-//            cout << "Teste de Speed. X: " << Camera::speed.x << " Y: " << Camera::speed.y << endl;
-        } else if(IM.KeyPress(DOWN_ARROW_KEY)){
-            Camera::pos.y += Camera::speed.y;
-        } else if(IM.KeyPress(RIGHT_ARROW_KEY)){
-            Camera::pos.x += Camera::speed.x;
-        } else if(IM.KeyPress(LEFT_ARROW_KEY)){
-            Camera::pos.x -= Camera::speed.x;
+        if(IM.IsKeyDown(UP_ARROW_KEY)){
+            Camera::pos.y -= Camera::speed.y * dt;
+        } else if(IM.IsKeyDown(DOWN_ARROW_KEY)){
+            Camera::pos.y += Camera::speed.y * dt;
+        } else if(IM.IsKeyDown(RIGHT_ARROW_KEY)){
+            Camera::pos.x += Camera::speed.x * dt;
+        } else if(IM.IsKeyDown(LEFT_ARROW_KEY)){
+            Camera::pos.x -= Camera::speed.x * dt;
         }
     }
 }
