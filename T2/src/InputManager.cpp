@@ -2,7 +2,6 @@
 // Created by fabio on 30/03/18.
 //
 
-#include <SDL_events.h>
 #include "InputManager.h"
 
 InputManager::InputManager() : updateCounter(0), quitRequested(false), mouseX(0), mouseY(0) {

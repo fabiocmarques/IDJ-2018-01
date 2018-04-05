@@ -29,12 +29,18 @@ class Game {
 
     Game(string title, int width, int height);
 
+    int frameStart;
+    float dt;
+
+    void CalculateDeltaTime();
 public:
     ~Game();
     void Run();
     SDL_Renderer* GetRenderer();
     State& GetState();
     static Game& GetInstance();
+
+    float GetDeltaTime();
 };
 
 

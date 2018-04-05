@@ -3,6 +3,7 @@
 //
 
 #include <InputManager.h>
+#include <Camera.h>
 #include "TileMap.h"
 #include "State.h"
 
@@ -46,9 +47,11 @@ void State::Update(float dt) {
         quitRequested = true;
     }
 
+    Camera::Update(dt);
+
     if(IM.KeyPress(SDLK_SPACE)){
         Vec2 objPos = Vec2( 200, 0 ).GetRotated( -M_PI + M_PI*(rand() % 1001)/500.0 ) + Vec2( IM.GetMouseX(), IM.GetMouseY());
-        AddObject(objPos.x, objPos.y);
+        AddObject(objPos.x+Camera::pos.x, objPos.y+Camera::pos.y);
     }
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {

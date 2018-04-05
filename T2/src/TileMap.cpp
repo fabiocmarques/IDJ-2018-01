@@ -2,6 +2,7 @@
 // Created by fabio on 28/03/18.
 //
 
+#include <Camera.h>
 #include "TileMap.h"
 
 TileMap::TileMap(GameObject &associated, string file, TileSet *tileSet) : Component(associated),
@@ -53,7 +54,7 @@ int &TileMap::At(int x, int y, int z) {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-    int i, j, index;
+    int i, j, index = 0;
     int tWidth = tileSet->GetTileWidth(), tHeight = tileSet->GetTileHeight();
 
 
@@ -61,7 +62,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
         for (j = 0; j < mapWidth; ++j) {
             index = At(j, i, layer);
             if(index > -1){
-                tileSet->RenderTile(index, (j-cameraX)*tWidth, (i-cameraY)*tHeight);
+                tileSet->RenderTile(index, (j*tWidth - cameraX), (i*tHeight - cameraY));
             }
         }
     }
@@ -70,7 +71,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 void TileMap::Render() {
 
     for (int i = 0; i < mapDepth; ++i) {
-        RenderLayer(i);
+        RenderLayer(i, (int)Camera::pos.x, (int)Camera::pos.y);
     }
 }
 

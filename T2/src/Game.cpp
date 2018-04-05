@@ -20,7 +20,7 @@ Game& Game::GetInstance() {
     return *instance;
 }
 
-Game::Game(string title, int width, int height) {
+Game::Game(string title, int width, int height) : frameStart(0), dt(0) {
 
     int img_flags = (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     if(instance != nullptr){
@@ -103,8 +103,10 @@ SDL_Renderer* Game::GetRenderer() {
 void Game::Run() {
 
     while(!state->QuitRequested()){
+        frameStart = SDL_GetTicks();
+        CalculateDeltaTime();
         InputManager::GetInstance().Update();
-        state->Update(0);
+        state->Update(dt);
         state->Render();
 
         SDL_RenderPresent(renderer);
@@ -114,5 +116,13 @@ void Game::Run() {
     Resources::ClearImages();
     Resources::ClearMusics();
     Resources::ClearSounds();
+}
+
+void Game::CalculateDeltaTime() {
+    dt = (frameStart/1000 - dt);
+}
+
+float Game::GetDeltaTime() {
+    return dt;
 }
       
