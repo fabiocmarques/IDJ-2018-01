@@ -3,17 +3,17 @@ project(T2)
 
 set(CMAKE_CXX_STANDARD 11)
 
-list(APPEND CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-link_libraries(SDL2 SDL2_image SDL2_ttf SDL2_mixer)
-include_directories(/usr/include/SDL2)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+#list(APPEND CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+#link_libraries(SDL2 SDL2_image SDL2_ttf SDL2_mixer)
+#include_directories(/usr/include/SDL2)
+#include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
-#include_directories(C:/SDL2-2.0.8/include)
-#link_directories(C:/SDL2-2.0.8/lib)
-#link_libraries(Mingw32 SDL2main SDL2_image SDL2_ttf SDL2_mixer SDL2)
+include_directories(C:/SDL2-2.0.8/include)
+link_directories(C:/SDL2-2.0.8/lib)
+link_libraries(Mingw32 SDL2main SDL2_image SDL2_ttf SDL2_mixer SDL2)
 
 include_directories(BEFORE include)
 include_directories(BEFORE dep)
 
 add_executable(140039082_FabioMarques src/main.cpp src/Game.cpp src/State.cpp src/Sprite.cpp src/Music.cpp
-        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/TileSet.cpp include/TileSet.h src/TileMap.cpp include/TileMap.h src/Resources.cpp include/Resources.h src/InputManager.cpp include/InputManager.h src/Camera.cpp include/Camera.h src/CameraFollower.cpp include/CameraFollower.h)
+        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/TileSet.cpp include/TileSet.h src/TileMap.cpp include/TileMap.h src/Resources.cpp include/Resources.h src/InputManager.cpp include/InputManager.h src/Camera.cpp include/Camera.h src/CameraFollower.cpp include/CameraFollower.h src/Alien.cpp include/Alien.h)
