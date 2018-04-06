@@ -7,6 +7,9 @@
 #include <Camera.h>
 #include "Alien.h"
 
+#define SPEED_X 300
+#define SPEED_Y 300
+
 void Alien::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
 
@@ -18,12 +21,22 @@ void Alien::Update(float dt) {
 
     if(!taskQueue.empty()){
         if(taskQueue.front().type == Action::MOVE){
+            Vec2 v(associated.box.x, associated.box.y);
+
+            v = v.Sum(taskQueue.front().pos, false);
+
+
+
+
+            associated.box.x += (abs(v.x) < SPEED_X*dt ? v.x : (v.x/abs(v.x))*SPEED_X*dt);
+            associated.box.y += (abs(v.y) < SPEED_Y*dt ? v.y : (v.y/abs(v.y))*SPEED_Y*dt);
+
+            if(associated.box.x == taskQueue.front().pos.x && associated.box.y == taskQueue.front().pos.y)
+                taskQueue.pop();
 
         } else if(taskQueue.front().type == Action::SHOOT){
 
         }
-
-        taskQueue.pop();
     }
 }
 
