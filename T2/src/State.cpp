@@ -8,7 +8,7 @@
 #include "TileMap.h"
 #include "State.h"
 
-State::State() {
+State::State() : started(false) {
     unique_ptr<GameObject> go(new GameObject());
     Sprite* spr = new Sprite(*go, "assets/img/ocean.jpg");
 
@@ -97,4 +97,36 @@ void State::AddObject(float mouseX, float mouseY) {
     go->AddComponent(new Face((*go)));
 
    objectArray.emplace_back(move(go));
+}
+
+void State::Start() {
+    LoadAssets();
+
+    for (int i = 0; i < (int)objectArray.size(); ++i) {
+        objectArray[i]->Start();
+    }
+
+    started = true;
+}
+
+weak_ptr<GameObject> State::AddObject(GameObject *go) {
+    shared_ptr<GameObject> sptr(go);
+
+    objectArray.push_back(sptr);
+    if(started){
+        go->Start();
+    }
+
+    return weak_ptr<GameObject>(sptr);
+}
+
+weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {
+
+    for (int i = 0; i < (int)objectArray.size(); ++i) {
+        if(objectArray[i] == go){
+            return weak_ptr<GameObject>(objectArray[i]);
+        }
+    }
+
+    return weak_ptr<GameObject>();
 }

@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Component.h"
 
-GameObject::GameObject() : isDead(false) {
+GameObject::GameObject() : isDead(false), started(false) {
 
 }
 
@@ -67,4 +67,8 @@ Component *GameObject::GetComponent(string type) {
     }
 
     return nullptr;
+}
+
+void GameObject::Start() {
+
 }

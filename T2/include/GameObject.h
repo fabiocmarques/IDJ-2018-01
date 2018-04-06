@@ -20,6 +20,8 @@ class GameObject {
     bool isDead;
     vector<Component*> components;
 
+    bool started;
+
 public:
     GameObject();
     ~GameObject();
@@ -31,6 +33,8 @@ public:
     void AddComponent(Component* cpt);
     void RemoveComponent(Component* cpt);
     Component* GetComponent(string type);
+
+    void Start();
 
     Rect box;
 };
