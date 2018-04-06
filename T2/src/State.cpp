@@ -85,18 +85,7 @@ State::~State() {
 }
 
 void State::AddObject(float mouseX, float mouseY) {
-    unique_ptr<GameObject> go(new GameObject());
-    Sprite *spr = new Sprite((*go), "assets/img/penguinface.png");
-    go->AddComponent(spr);
-    go->box.x = mouseX;
-    go->box.y = mouseY;
-    go->box.h = spr->GetHeight();
-    go->box.w = spr->GetWidth();
 
-    go->AddComponent(new Sound((*go), "assets/audio/boom.wav"));
-    go->AddComponent(new Face((*go)));
-
-   objectArray.emplace_back(move(go));
 }
 
 void State::Start() {
@@ -123,7 +112,7 @@ weak_ptr<GameObject> State::AddObject(GameObject *go) {
 weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {
-        if(objectArray[i] == go){
+        if(objectArray[i].get() == go){
             return weak_ptr<GameObject>(objectArray[i]);
         }
     }

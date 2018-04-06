@@ -41,6 +41,10 @@ void GameObject::RequestDelete() {
 
 void GameObject::AddComponent(Component *cpt) {
     components.emplace_back(cpt);
+    if(started){
+        cpt->Start();
+    }
+
 }
 
 void GameObject::RemoveComponent(Component *cpt) {
@@ -70,5 +74,8 @@ Component *GameObject::GetComponent(string type) {
 }
 
 void GameObject::Start() {
-
+    for (int i = 0; i < (int)components.size() ; ++i) {
+        (*components[i]).Start();
+    }
+    started = true;
 }

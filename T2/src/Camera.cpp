@@ -7,7 +7,7 @@
 #define STD_WIDTH 1024
 #define STD_HEIGHT 600
 
-#define SPEED 600
+#define SPEED 300
 
 GameObject* Camera::focus = nullptr;
 Vec2 Camera::pos = *new Vec2();
