@@ -3,10 +3,28 @@
 //
 
 #include <Sprite.h>
+#include <InputManager.h>
+#include <Camera.h>
 #include "Alien.h"
 
 void Alien::Update(float dt) {
+    InputManager IM = InputManager::GetInstance();
 
+    if (IM.MousePress(LEFT_MOUSE_BUTTON)) {
+        taskQueue.push(*new Action(Action::SHOOT, IM.GetMouseX() + Camera::pos.x, IM.GetMouseY() + Camera::pos.y));
+    } else if (IM.MousePress(RIGHT_MOUSE_BUTTON)) {
+        taskQueue.push(*new Action(Action::MOVE, IM.GetMouseX() + Camera::pos.x, IM.GetMouseY() + Camera::pos.y));
+    }
+
+    if(!taskQueue.empty()){
+        if(taskQueue.front().type == Action::MOVE){
+
+        } else if(taskQueue.front().type == Action::SHOOT){
+
+        }
+
+        taskQueue.pop();
+    }
 }
 
 void Alien::Render() {
@@ -21,20 +39,20 @@ void Alien::Start() {
     Component::Start();
 }
 
-Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100), minionArray(nMinions) {
+Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100),
+                                                     minionArray(nMinions) {
 
     associated.AddComponent(new Sprite(associated, "assets/img/alien.png"));
 
 }
 
 Alien::~Alien() {
-    for(auto it = minionArray.begin(); it != minionArray.end(); ){
-        it = minionArray.erase(it);
-    }
+//    for(auto it = minionArray.begin(); it != minionArray.end(); ){
+//        it = minionArray.erase(it);
+//    }
 
     minionArray.clear();
 }
 
-Alien::Action::Action(Alien::Action::ActionType type, float x, float y) {
-
+Alien::Action::Action(Alien::Action::ActionType type, float x, float y) : type(type), pos(x, y) {
 }
