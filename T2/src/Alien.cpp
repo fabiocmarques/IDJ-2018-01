@@ -7,8 +7,7 @@
 #include <Camera.h>
 #include "Alien.h"
 
-#define SPEED_X 300
-#define SPEED_Y 300
+#define SPEED 50
 
 void Alien::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
@@ -21,18 +20,23 @@ void Alien::Update(float dt) {
 
     if(!taskQueue.empty()){
         if(taskQueue.front().type == Action::MOVE){
-            Vec2 v(associated.box.x, associated.box.y);
 
+            Vec2 v(associated.box.x, associated.box.y);
             v = v.Sum(taskQueue.front().pos, false);
 
+            if(speed.Mag() == 0){
+                
+            }
 
+            associated.box.x += (abs(v.x) - abs(speed.x*dt) < speed.x*dt ? v.x : speed.x*dt);
+            associated.box.y += (abs(v.y) - abs(speed.y*dt) < speed.y*dt ? v.y : speed.y*dt);
 
-
-            associated.box.x += (abs(v.x) < SPEED_X*dt ? v.x : (v.x/abs(v.x))*SPEED_X*dt);
-            associated.box.y += (abs(v.y) < SPEED_Y*dt ? v.y : (v.y/abs(v.y))*SPEED_Y*dt);
-
-            if(associated.box.x == taskQueue.front().pos.x && associated.box.y == taskQueue.front().pos.y)
+            if(associated.box.x == taskQueue.front().pos.x && associated.box.y == taskQueue.front().pos.y){
                 taskQueue.pop();
+                speed.x = 0;
+                speed.y = 0;
+            }
+
 
         } else if(taskQueue.front().type == Action::SHOOT){
 
