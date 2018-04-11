@@ -5,6 +5,7 @@
 #include <InputManager.h>
 #include <Camera.h>
 #include <CameraFollower.h>
+#include <Alien.h>
 #include "TileMap.h"
 #include "State.h"
 
@@ -25,7 +26,7 @@ State::State() : started(false) {
     unique_ptr<GameObject> go2(new GameObject());
     TileSet* ts = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
     TileMap* map = new TileMap(*go2, "assets/map/tileMap.txt", ts);
-    LoadAssets();
+
 
     go2->AddComponent(map);
     go2->box.x = 0;
@@ -33,7 +34,20 @@ State::State() : started(false) {
 
     objectArray.emplace_back(move(go2));
 
+    unique_ptr<GameObject> go3(new GameObject());
+    Alien* a = new Alien(*go3, 0);
+    Sprite* spr2 = new Sprite(*go3, "assets/img/alien.png");
 
+    go3->AddComponent(a);
+    go3->AddComponent(spr2);
+    go3->box.x = 512;
+    go3->box.y = 300;
+    go3->box.h = spr->GetHeight();
+    go3->box.w = spr->GetWidth();
+
+    objectArray.emplace_back(move(go3));
+
+    LoadAssets();
     quitRequested = false;
     music.Play();
 }
