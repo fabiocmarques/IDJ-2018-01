@@ -10,7 +10,7 @@
 #include "State.h"
 
 State::State() : started(false) {
-    unique_ptr<GameObject> go(new GameObject());
+    shared_ptr<GameObject> go(new GameObject());
     Sprite* spr = new Sprite(*go, "assets/img/ocean.jpg");
 
     go->AddComponent(new CameraFollower(*go));
@@ -20,10 +20,12 @@ State::State() : started(false) {
     go->box.h = spr->GetHeight();
     go->box.w = spr->GetWidth();
 
-   objectArray.emplace_back(move(go));
+   objectArray.emplace_back(go);
+
+   cout << "1" << endl;
 
 
-    unique_ptr<GameObject> go2(new GameObject());
+    shared_ptr<GameObject> go2(new GameObject());
     TileSet* ts = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
     TileMap* map = new TileMap(*go2, "assets/map/tileMap.txt", ts);
 
@@ -32,20 +34,20 @@ State::State() : started(false) {
     go2->box.x = 0;
     go2->box.y = 0;
 
-    objectArray.emplace_back(move(go2));
+    objectArray.emplace_back(go2);
 
-    unique_ptr<GameObject> go3(new GameObject());
-    Alien* a = new Alien(*go3, 0);
-    Sprite* spr2 = new Sprite(*go3, "assets/img/alien.png");
+    cout << "2" << endl;
+
+    shared_ptr<GameObject> go3(new GameObject());
+    Alien* a = new Alien(*go3, 1);
 
     go3->AddComponent(a);
-    go3->AddComponent(spr2);
     go3->box.x = 512;
     go3->box.y = 300;
-    go3->box.h = spr->GetHeight();
-    go3->box.w = spr->GetWidth();
 
-    objectArray.emplace_back(move(go3));
+    objectArray.emplace_back(go3);
+
+    cout << "3" << endl;
 
     LoadAssets();
     quitRequested = false;

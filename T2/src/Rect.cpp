@@ -13,7 +13,8 @@ Rect::Rect(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {
 }
 
 Rect Rect::SumVec2(Vec2 v) {
-    return Rect(v.x + this->x, v.y + this->y, this->w, this->h);
+    cout << "X :" << x << endl << "Y :" << y << endl<< "W :" << w << endl << "H :" << h << endl;
+    return Rect(v.x + x, v.y + y, w, h);
 }
 
 Vec2 Rect::CenterRec() {

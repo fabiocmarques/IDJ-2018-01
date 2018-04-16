@@ -60,7 +60,7 @@ void GameObject::RemoveComponent(Component *cpt) {
     }
 }
 
-Component *GameObject::GetComponent(string type) {
+Component* GameObject::GetComponent(string type) {
     if(!components.empty()){
         int i = 0;
         for( ; i < (int)components.size(); ++i) {
