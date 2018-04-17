@@ -62,14 +62,25 @@ void Alien::Update(float dt) {
 
 
         } else if (taskQueue.front().type == Action::SHOOT) {
-            if(!minionArray.empty()){
+            if (!minionArray.empty()) {
+
+                cout << "1" << endl;
 
                 shared_ptr<GameObject> obj = minionArray[0].lock();
-                Minion* minion = (Minion*)obj.get()->GetComponent("Minion");
 
-                minion->Shoot(Vec2(IM.GetMouseX() + Camera::pos.x, IM.GetMouseY() + Camera::pos.y));
+                cout << "2" << endl << obj << endl;
 
-            } else{
+                Minion *minion = (Minion *) obj.get()->GetComponent("Minion");
+
+                cout << "3" << endl;
+
+                minion->Shoot(Vec2((IM.GetMouseX() + Camera::pos.x)-associated.box.x, (IM.GetMouseY() + Camera::pos.y)-associated.box.y));
+
+                cout << "4" << endl;
+
+                taskQueue.pop();
+
+            } else {
                 cout << "No minion associated." << endl;
                 taskQueue.pop();
             }
@@ -91,28 +102,28 @@ bool Alien::Is(string type) {
 
 void Alien::Start() {
 
-    if(!minionArray.empty()){
+    if (!minionArray.empty()) {
 
-        int angleStep = 360/minionArray.size();
-        Minion* minion = nullptr;
+        int angleStep = 360 / minionArray.size();
         weak_ptr<GameObject> alienPtr = Game::GetInstance().GetState().GetObjectPtr(&associated);
 
-        cout << "4" << endl;
-
-        for (int angle = 0; angle < 360; angle += angleStep) {
+        for (int angle = 0, i = 0; angle < 360; angle += angleStep, ++i) {
             shared_ptr<GameObject> go = shared_ptr<GameObject>(new GameObject());
             go->AddComponent(new Minion(*go, alienPtr, angle));
 
             Game::GetInstance().GetState().AddObject(go);
+
+            minionArray[i] = weak_ptr<GameObject>(go);
         }
 
-        cout << "5" << endl;
+
     }
 
 }
 
-Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100), minionArray(nMinions) {
-    Sprite* spr = new Sprite(associated, "assets/img/alien.png");
+Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100),
+                                                     minionArray(nMinions) {
+    Sprite *spr = new Sprite(associated, "assets/img/alien.png");
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
@@ -120,8 +131,8 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
 }
 
 Alien::~Alien() {
-    for(auto it = minionArray.begin(); it != minionArray.end(); ){
-        if(it->lock() != nullptr){
+    for (auto it = minionArray.begin(); it != minionArray.end();) {
+        if (it->lock() != nullptr) {
             (it->lock().get())->RequestDelete();
         }
 

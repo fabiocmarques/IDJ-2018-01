@@ -23,6 +23,9 @@ class Sprite : public Component{
     int height;
     SDL_Rect clipRect;
 
+    float angle;
+    Vec2 scale;
+
 public:
     Sprite(GameObject &associated);
     Sprite(GameObject &associated, string file);
@@ -40,6 +43,9 @@ public:
     bool Is(string type) override;
 
     void Render(int x, int y);
+
+    Vec2 GetScale();
+    void SetScaleX(float scaleX, float scaleY);
 };
 
 

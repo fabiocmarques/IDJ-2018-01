@@ -62,10 +62,11 @@ void Minion::Shoot(Vec2 target) {
     float angle = target.IncX();
 
     shared_ptr<GameObject> go(new GameObject());
-
-    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet1.jpg"));
     go->box.x = associated.box.x;
     go->box.y = associated.box.y;
+
+    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet1.png"));
+
 
     Game::GetInstance().GetState().AddObject(go);
 

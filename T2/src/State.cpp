@@ -22,8 +22,6 @@ State::State() : started(false) {
 
    objectArray.emplace_back(go);
 
-   cout << "1" << endl;
-
 
     shared_ptr<GameObject> go2(new GameObject());
     TileSet* ts = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
@@ -36,7 +34,6 @@ State::State() : started(false) {
 
     objectArray.emplace_back(go2);
 
-    cout << "2" << endl;
 
     shared_ptr<GameObject> go3(new GameObject());
     Alien* a = new Alien(*go3, 4);
@@ -47,7 +44,6 @@ State::State() : started(false) {
 
     objectArray.emplace_back(go3);
 
-    cout << "3" << endl;
 
     LoadAssets();
     quitRequested = false;

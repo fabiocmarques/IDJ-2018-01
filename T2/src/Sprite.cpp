@@ -34,11 +34,11 @@ void Sprite::Render() {
 }
 
 int Sprite::GetWidth() {
-    return width;
+    return width*scale.x;
 }
 
 int Sprite::GetHeight() {
-    return height;
+    return height*scale.y;
 }
 
 bool Sprite::IsOpen() {
@@ -54,7 +54,7 @@ bool Sprite::Is(string type) {
     return (type == "Sprite");
 }
 
-Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr), width(0), height(0) {
+Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr), width(0), height(0), angle(0), scale(1, 1) {
 
 }
 
@@ -71,6 +71,20 @@ void Sprite::Render(int x, int y) {
     dstrect.h = clipRect.h;
 
     SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect);
+}
+
+Vec2 Sprite::GetScale() {
+    return Vec2();
+}
+
+void Sprite::SetScaleX(float scaleX, float scaleY) {
+    if(scaleX != 0){
+        scale.x = scaleX;
+    }
+
+    if(scaleY != 0){
+        scale.y = scaleY;
+    }
 }
 
 
