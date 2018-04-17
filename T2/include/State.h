@@ -41,7 +41,7 @@ public:
     void Render();
 
     void Start();
-    weak_ptr<GameObject> AddObject(GameObject* go);
+    weak_ptr<GameObject> AddObject(shared_ptr<GameObject> go);
     weak_ptr<GameObject> GetObjectPtr(GameObject* go);
 };
 

@@ -39,7 +39,7 @@ State::State() : started(false) {
     cout << "2" << endl;
 
     shared_ptr<GameObject> go3(new GameObject());
-    Alien* a = new Alien(*go3, 1);
+    Alien* a = new Alien(*go3, 4);
 
     go3->AddComponent(a);
     go3->box.x = 512;
@@ -114,15 +114,14 @@ void State::Start() {
     started = true;
 }
 
-weak_ptr<GameObject> State::AddObject(GameObject *go) {
-    shared_ptr<GameObject> sptr(go);
+weak_ptr<GameObject> State::AddObject(shared_ptr<GameObject> go) {
 
-    objectArray.push_back(sptr);
+    objectArray.push_back(go);
     if(started){
         go->Start();
     }
 
-    return weak_ptr<GameObject>(sptr);
+    return weak_ptr<GameObject>(go);
 }
 
 weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {

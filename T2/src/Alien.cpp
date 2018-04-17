@@ -9,7 +9,7 @@
 #include <Game.h>
 #include "Alien.h"
 
-#define SPEED 50
+#define SPEED 100
 #define MARGIN 1
 
 void Alien::Update(float dt) {
@@ -103,7 +103,7 @@ void Alien::Start() {
             shared_ptr<GameObject> go = shared_ptr<GameObject>(new GameObject());
             go->AddComponent(new Minion(*go, alienPtr, angle));
 
-            Game::GetInstance().GetState().AddObject(go.get());
+            Game::GetInstance().GetState().AddObject(go);
         }
 
         cout << "5" << endl;
@@ -111,7 +111,7 @@ void Alien::Start() {
 
 }
 
-Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100),minionArray(nMinions) {
+Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100), minionArray(nMinions) {
     Sprite* spr = new Sprite(associated, "assets/img/alien.png");
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();

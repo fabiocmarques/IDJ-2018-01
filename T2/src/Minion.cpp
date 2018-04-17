@@ -8,7 +8,7 @@
 #include "Bullet.h"
 
 #define CENTER_DIST 200
-#define SPEED 1
+#define SPEED 0.5
 
 void Minion::Update(float dt) {
     Vec2 v = *new Vec2(CENTER_DIST, 0);
@@ -67,6 +67,6 @@ void Minion::Shoot(Vec2 target) {
     go->box.x = associated.box.x;
     go->box.y = associated.box.y;
 
-    Game::GetInstance().GetState().AddObject(go.get());
+    Game::GetInstance().GetState().AddObject(go);
 
 }
