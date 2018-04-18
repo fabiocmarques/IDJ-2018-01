@@ -37,6 +37,7 @@ public:
     void Start();
 
     Rect box;
+    double angleDeg;
 };
 
 

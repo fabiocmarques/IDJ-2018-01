@@ -21,7 +21,7 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file) : tileHeight(tileHe
 void TileSet::RenderTile(unsigned int index, float x, float y) {
     int mIndex = rows*columns;
     int tX, tY;
-
+    
     if(index >= mIndex){
         cout << "Invalid index (" << index << "), max index: " << (mIndex- 1);
         exit(1);

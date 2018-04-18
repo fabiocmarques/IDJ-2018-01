@@ -64,19 +64,11 @@ void Alien::Update(float dt) {
         } else if (taskQueue.front().type == Action::SHOOT) {
             if (!minionArray.empty()) {
 
-                cout << "1" << endl;
-
                 shared_ptr<GameObject> obj = minionArray[0].lock();
-
-                cout << "2" << endl << obj << endl;
 
                 Minion *minion = (Minion *) obj.get()->GetComponent("Minion");
 
-                cout << "3" << endl;
-
-                minion->Shoot(Vec2((IM.GetMouseX() + Camera::pos.x)-associated.box.x, (IM.GetMouseY() + Camera::pos.y)-associated.box.y));
-
-                cout << "4" << endl;
+                minion->Shoot(Vec2(IM.GetMouseX() + Camera::pos.x, IM.GetMouseY() + Camera::pos.y));
 
                 taskQueue.pop();
 
@@ -123,10 +115,12 @@ void Alien::Start() {
 
 Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100),
                                                      minionArray(nMinions) {
-    Sprite *spr = new Sprite(associated, "assets/img/alien.png");
+    Sprite *spr = new Sprite(associated, "assets/img/alien.png", true);
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
+    
+    spr->SetScaleX(2, 2);
 
 }
 

@@ -5,6 +5,8 @@
 #ifndef T2_BULLET_H
 #define T2_BULLET_H
 
+#define PI 3.14159265
+
 
 #include <Component.h>
 #include <cmath>

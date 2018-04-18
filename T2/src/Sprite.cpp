@@ -54,23 +54,25 @@ bool Sprite::Is(string type) {
     return (type == "Sprite");
 }
 
-Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr), width(0), height(0), angle(0), scale(1, 1) {
+Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr), width(0), height(0), scale(1, 1) {
 
 }
 
 
-Sprite::Sprite(GameObject &associated, string file) : Component(associated), texture(nullptr), width(0), height(0) {
+Sprite::Sprite(GameObject &associated, string file, bool center) : Component(associated), texture(nullptr), 
+width(0), height(0), scale(1, 1), centered(center) {
     Open(file);
 }
 
 void Sprite::Render(int x, int y) {
-    SDL_Rect dstrect;
-    dstrect.x = x - width/2;
-    dstrect.y = y - height/2;
-    dstrect.w = clipRect.w;
-    dstrect.h = clipRect.h;
+    SDL_Rect dstrect, center;
+    dstrect.x = ( centered ? x - scale.x*width/2 : x);
+    dstrect.y = ( centered ? y - scale.y*height/2 : y);
+    dstrect.w = clipRect.w*scale.x;
+    dstrect.h = clipRect.h*scale.y;
 
-    SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect);
+    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect, associated.angleDeg,
+                     nullptr, SDL_FLIP_NONE);
 }
 
 Vec2 Sprite::GetScale() {
@@ -80,10 +82,12 @@ Vec2 Sprite::GetScale() {
 void Sprite::SetScaleX(float scaleX, float scaleY) {
     if(scaleX != 0){
         scale.x = scaleX;
+        associated.box.x = associated.box.x - clipRect.x*scale.x/2;
     }
 
     if(scaleY != 0){
         scale.y = scaleY;
+        associated.box.y = associated.box.y - clipRect.y*scale.y/2;
     }
 }
 

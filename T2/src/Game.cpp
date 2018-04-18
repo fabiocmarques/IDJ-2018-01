@@ -22,6 +22,8 @@ Game& Game::GetInstance() {
 
 Game::Game(string title, int width, int height) : frameStart(0), dt(0) {
 
+    srand (time(NULL));
+    
     int img_flags = (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     if(instance != nullptr){
         cout << "Existing Game instance when the constructor is called.";

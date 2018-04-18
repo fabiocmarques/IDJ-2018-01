@@ -7,8 +7,8 @@
 #include "Minion.h"
 #include "Bullet.h"
 
-#define CENTER_DIST 200
-#define SPEED 0.5
+#define CENTER_DIST 150
+#define SPEED 0.3
 
 void Minion::Update(float dt) {
     Vec2 v = *new Vec2(CENTER_DIST, 0);
@@ -44,10 +44,13 @@ Minion::Minion(GameObject &associated,
                                      alienCenter(*(alCenter.lock().get())),
                                      arc(arcOffsetDeg*PI/180)
 {
-    Sprite* spr = new Sprite(associated, "assets/img/minion.png");
+    Sprite* spr = new Sprite(associated, "assets/img/minion.png", true);
+    float sc = 1 + (rand() % 500 + 1)/1000.0;
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
+    
+    cout << sc << endl;
 
     Vec2 v = *new Vec2(CENTER_DIST, 0);
     v = v.GetRotated(arc);
@@ -56,10 +59,13 @@ Minion::Minion(GameObject &associated,
 
     associated.box.x = finalPos.x;
     associated.box.y = finalPos.y;
+
+    spr->SetScaleX(sc, sc);
 }
 
 void Minion::Shoot(Vec2 target) {
-    float angle = target.IncX();
+    Vec2 vet((target.x)-associated.box.x, (target.y)-associated.box.y);
+    float angle = vet.IncX();
 
     shared_ptr<GameObject> go(new GameObject());
     go->box.x = associated.box.x;

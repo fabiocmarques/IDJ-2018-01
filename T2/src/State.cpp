@@ -36,7 +36,7 @@ State::State() : started(false) {
 
 
     shared_ptr<GameObject> go3(new GameObject());
-    Alien* a = new Alien(*go3, 4);
+    Alien* a = new Alien(*go3, 3);
 
     go3->AddComponent(a);
     go3->box.x = 512;
@@ -56,7 +56,7 @@ void State::LoadAssets() {
 
 void State::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
-
+    
     if(IM.IsKeyDown(ESCAPE_KEY) || IM.QuitRequested()){
         quitRequested = true;
     }

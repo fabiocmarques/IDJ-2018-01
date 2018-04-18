@@ -22,13 +22,14 @@ class Sprite : public Component{
     int width;
     int height;
     SDL_Rect clipRect;
-
-    float angle;
+    
     Vec2 scale;
+    
+    bool centered;
 
 public:
     Sprite(GameObject &associated);
-    Sprite(GameObject &associated, string file);
+    Sprite(GameObject &associated, string file, bool center = false);
 
     ~Sprite();
 

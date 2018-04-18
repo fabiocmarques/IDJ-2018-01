@@ -31,13 +31,16 @@ bool Bullet::Is(string type) {
 Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance,
                string sprite) : Component(associated), distanceLeft(maxDistance), damage(damage) {
 
-    Sprite* spr = new Sprite(associated, sprite);
+    associated.angleDeg = angle*180/PI;
+    Sprite* spr = new Sprite(associated, sprite, true);
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
 
     this->speed.x = speed*sin(angle);
     this->speed.y = speed*cos(angle);
+    
+    
 }
 
 int Bullet::GetDamage() {
