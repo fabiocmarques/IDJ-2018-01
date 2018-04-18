@@ -10,6 +10,8 @@
 #define CENTER_DIST 150
 #define SPEED 0.3
 
+#define PI 3.14159265
+
 void Minion::Update(float dt) {
     Vec2 v = *new Vec2(CENTER_DIST, 0);
     Rect finalPos;
@@ -17,6 +19,15 @@ void Minion::Update(float dt) {
     if(!associated.IsDead()){
 
         arc += SPEED*dt;
+        if(arc >= 2*PI){
+            arc -= 2*PI;
+        }
+
+        associated.angleDeg += (SPEED*dt*180/PI);
+        if(associated.angleDeg >= 360){
+            associated.angleDeg -= - 360;
+        }
+
 
         v = v.GetRotated(arc);
 
@@ -47,8 +58,10 @@ Minion::Minion(GameObject &associated,
     Sprite* spr = new Sprite(associated, "assets/img/minion.png", true);
     float sc = 1 + (rand() % 500 + 1)/1000.0;
     associated.AddComponent(spr);
-    associated.box.h = spr->GetHeight();
-    associated.box.w = spr->GetWidth();
+    associated.box.h = spr->GetHeight()*sc;
+    associated.box.w = spr->GetWidth()*sc;
+
+    associated.angleDeg = 90 + arcOffsetDeg;
     
     cout << sc << endl;
 

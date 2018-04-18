@@ -65,18 +65,18 @@ width(0), height(0), scale(1, 1), centered(center) {
 }
 
 void Sprite::Render(int x, int y) {
-    SDL_Rect dstrect, center;
-    dstrect.x = ( centered ? x - scale.x*width/2 : x);
-    dstrect.y = ( centered ? y - scale.y*height/2 : y);
-    dstrect.w = clipRect.w*scale.x;
-    dstrect.h = clipRect.h*scale.y;
+    SDL_Rect dstrect;
+    dstrect.x = (int)( centered ? x - scale.x*width/2 : x);
+    dstrect.y = (int)( centered ? y - scale.y*height/2 : y);
+    dstrect.w = (int)(clipRect.w*scale.x);
+    dstrect.h = (int)(clipRect.h*scale.y);
 
     SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect, associated.angleDeg,
-                     nullptr, SDL_FLIP_NONE);
+                     nullptr , SDL_FLIP_NONE);
 }
 
 Vec2 Sprite::GetScale() {
-    return Vec2();
+    return scale;
 }
 
 void Sprite::SetScaleX(float scaleX, float scaleY) {

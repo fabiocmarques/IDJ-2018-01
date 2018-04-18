@@ -31,7 +31,10 @@ bool Bullet::Is(string type) {
 Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance,
                string sprite) : Component(associated), distanceLeft(maxDistance), damage(damage) {
 
-    associated.angleDeg = angle*180/PI;
+    associated.angleDeg = 90 - angle*180/PI;
+
+    cout << "Angulo : " << associated.angleDeg << endl;
+
     Sprite* spr = new Sprite(associated, sprite, true);
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();

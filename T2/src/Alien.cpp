@@ -9,6 +9,7 @@
 #include <Game.h>
 #include "Alien.h"
 
+#define ROT_SPEED 0.15
 #define SPEED 100
 #define MARGIN 1
 
@@ -17,6 +18,10 @@ void Alien::Update(float dt) {
     float finalX;
     float finalY;
 
+    associated.angleDeg -= (ROT_SPEED*dt*180/PI);
+    if(associated.angleDeg <= -360){
+        associated.angleDeg += 360;
+    }
 
     if (IM.MousePress(LEFT_MOUSE_BUTTON)) {
         taskQueue.push(
@@ -63,19 +68,35 @@ void Alien::Update(float dt) {
 
         } else if (taskQueue.front().type == Action::SHOOT) {
             if (!minionArray.empty()) {
+                float distX = IM.GetMouseX() + Camera::pos.x, distY = IM.GetMouseY() + Camera::pos.y;
+                Vec2 target(distX, distY);
 
-                shared_ptr<GameObject> obj = minionArray[0].lock();
+                shared_ptr<GameObject> closest = nullptr;
 
-                Minion *minion = (Minion *) obj.get()->GetComponent("Minion");
 
-                minion->Shoot(Vec2(IM.GetMouseX() + Camera::pos.x, IM.GetMouseY() + Camera::pos.y));
 
-                taskQueue.pop();
+                for(auto it = minionArray.begin(); it < minionArray.end(); it++) {
+                    shared_ptr<GameObject> obj = it->lock();
+                    cout << "inside" << endl;
+                    if (obj != nullptr && (closest == nullptr || target.Sum(obj->box.CenterRec(), false).Mag() < target.Sum(closest->box.CenterRec(), false).Mag())) {
+                        closest = obj;
+                    }
+
+                }
+
+                cout << "2" << endl;
+
+                Minion* minion = (Minion *) closest.get()->GetComponent("Minion");
+
+                minion->Shoot(target);
+
+                cout << "3" << endl;
 
             } else {
                 cout << "No minion associated." << endl;
-                taskQueue.pop();
             }
+
+            taskQueue.pop();
         }
     }
 
@@ -119,8 +140,9 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
-    
-    spr->SetScaleX(2, 2);
+
+    associated.angleDeg = 0;
+    //spr->SetScaleX(2, 2);
 
 }
 

@@ -18,11 +18,11 @@ Vec2 Vec2::Sum(Vec2 v, bool sum) {
     Vec2 ret;
 
     if(sum){
-        ret.x += v.x;
-        ret.y += v.y;
+        ret.x = x + v.x;
+        ret.y = y + v.y;
     } else{
-        ret.x -= v.x;
-        ret.y -= v.y;
+        ret.x = x - v.x;
+        ret.y = y - v.y;
     }
 
     return ret;

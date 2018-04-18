@@ -36,7 +36,7 @@ State::State() : started(false) {
 
 
     shared_ptr<GameObject> go3(new GameObject());
-    Alien* a = new Alien(*go3, 3);
+    Alien* a = new Alien(*go3, 4);
 
     go3->AddComponent(a);
     go3->box.x = 512;
