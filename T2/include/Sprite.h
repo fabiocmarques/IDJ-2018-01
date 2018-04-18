@@ -27,9 +27,14 @@ class Sprite : public Component{
     
     bool centered;
 
+    int frameCount;
+    int currentFrame;
+    float timeElapsed;
+    float frameTime;
+
 public:
     Sprite(GameObject &associated);
-    Sprite(GameObject &associated, string file, bool center = false);
+    Sprite(GameObject &associated, string file, bool center = false, int frameCount = 1, float frameTime = 1);
 
     ~Sprite();
 
@@ -47,6 +52,10 @@ public:
 
     Vec2 GetScale();
     void SetScaleX(float scaleX, float scaleY);
+
+    void SetFrame(int frame);
+    void SetFrameCount(int frameCount);
+    void SetFrameTime(float frameTime);
 };
 
 
