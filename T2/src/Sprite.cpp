@@ -75,8 +75,8 @@ Sprite::Sprite(GameObject &associated, string file, bool center, int frameCount,
 
 void Sprite::Render(int x, int y) {
     SDL_Rect dstrect;
-    dstrect.x = (int)( centered ? x - scale.x*clipRect.w/2 : x);
-    dstrect.y = (int)( centered ? y - scale.y*clipRect.h/2 : y);
+    dstrect.x = x;
+    dstrect.y = y;
     dstrect.w = (int)(clipRect.w*scale.x);
     dstrect.h = (int)(clipRect.h*scale.y);
 
@@ -91,13 +91,14 @@ Vec2 Sprite::GetScale() {
 void Sprite::SetScaleX(float scaleX, float scaleY) {
     if(scaleX != 0){
         scale.x = scaleX;
-        associated.box.x = associated.box.x - clipRect.x*scale.x/2;
+        associated.box.w = (width/frameCount)*scaleX;        
     }
 
     if(scaleY != 0){
         scale.y = scaleY;
-        associated.box.y = associated.box.y - clipRect.y*scale.y/2;
+        associated.box.h = height*scale.y;
     }
+    
 }
 
 void Sprite::SetFrame(int frame) {

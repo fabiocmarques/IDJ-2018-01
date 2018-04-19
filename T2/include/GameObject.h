@@ -35,7 +35,9 @@ public:
     Component* GetComponent(string type);
 
     void Start();
-
+    
+    void SetCenter(bool CenterX = true, bool CenterY = true);
+    
     Rect box;
     double angleDeg;
 };

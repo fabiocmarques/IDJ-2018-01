@@ -7,17 +7,21 @@
 #include "Minion.h"
 #include "Bullet.h"
 
-#define CENTER_DIST 150
+#define CENTER_DIST 200
 #define SPEED 0.3
 
 #define PI 3.14159265
 
 void Minion::Update(float dt) {
     Vec2 v = *new Vec2(CENTER_DIST, 0);
-    Rect finalPos;
+    Vec2 finalPos;
 
     if(!associated.IsDead()){
-
+        associated.box.x = 0;
+        associated.box.y = 0;
+        
+        associated.SetCenter();
+        
         arc += SPEED*dt;
         if(arc >= 2*PI){
             arc -= 2*PI;
@@ -31,10 +35,10 @@ void Minion::Update(float dt) {
 
         v = v.GetRotated(arc);
 
-        finalPos = alienCenter.box.SumVec2(v);
+        finalPos = alienCenter.box.CenterRec().Sum(v, true);
 
-        associated.box.x = finalPos.x;
-        associated.box.y = finalPos.y;
+        associated.box.x += finalPos.x;
+        associated.box.y += finalPos.y;
 
     } else{
         associated.RequestDelete();
@@ -61,30 +65,32 @@ Minion::Minion(GameObject &associated,
     associated.box.h = spr->GetHeight()*sc;
     associated.box.w = spr->GetWidth()*sc;
 
-    associated.angleDeg = 90 + arcOffsetDeg;
-    
-    cout << sc << endl;
+    spr->SetScaleX(sc, sc);
 
-    Vec2 v = *new Vec2(CENTER_DIST, 0);
+    associated.angleDeg = 90 + arcOffsetDeg;
+
+    Vec2 v = Vec2(CENTER_DIST, 0);
     v = v.GetRotated(arc);
 
-    Rect finalPos = alienCenter.box.SumVec2(v);
+    Vec2 finalPos = alienCenter.box.CenterRec().Sum(v, true);
 
     associated.box.x = finalPos.x;
     associated.box.y = finalPos.y;
 
-    spr->SetScaleX(sc, sc);
+    associated.SetCenter();
+    
 }
 
 void Minion::Shoot(Vec2 target) {
-    Vec2 vet((target.x)-associated.box.x, (target.y)-associated.box.y);
+    Vec2 center = associated.box.CenterRec();
+    Vec2 vet((target.x)-center.x, (target.y)-center.y);
     float angle = vet.IncX();
 
     shared_ptr<GameObject> go(new GameObject());
-    go->box.x = associated.box.x;
-    go->box.y = associated.box.y;
+    go->box.x = center.x;
+    go->box.y = center.y;
 
-    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet1.png"));
+    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet2.png", 3, 300));
 
 
     Game::GetInstance().GetState().AddObject(go);

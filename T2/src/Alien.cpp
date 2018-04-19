@@ -17,9 +17,10 @@ void Alien::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
     float finalX;
     float finalY;
+    Vec2 center = associated.box.CenterRec();
 
-    associated.angleDeg -= (ROT_SPEED*dt*180/PI);
-    if(associated.angleDeg <= -360){
+    associated.angleDeg -= (ROT_SPEED * dt * 180 / PI);
+    if (associated.angleDeg <= -360) {
         associated.angleDeg += 360;
     }
 
@@ -40,26 +41,27 @@ void Alien::Update(float dt) {
 
             if (speed.Mag() == 0) {
 
-                if (abs(finalY - associated.box.y) < abs(finalX - associated.box.x)) {
-                    speed.x = (associated.box.x < finalX) ? SPEED : -SPEED;
-                    speed.y = (finalY - associated.box.y) * (SPEED / abs(finalX - associated.box.x));
+                if (abs(finalY - center.y) < abs(finalX - center.x)) {
+                    speed.x = (center.x < finalX) ? SPEED : -SPEED;
+                    speed.y = (finalY - center.y) * (SPEED / abs(finalX - center.x));
                 } else {
-                    speed.y = (associated.box.y < finalY) ? SPEED : -SPEED;
-                    speed.x = (finalX - associated.box.x) * (SPEED / abs(finalY - associated.box.y));
+                    speed.y = (center.y < finalY) ? SPEED : -SPEED;
+                    speed.x = (finalX - center.x) * (SPEED / abs(finalY - center.y));
 
                 }
 
             }
 
-            associated.box.x += (abs(finalX - associated.box.x) < abs(speed.x * dt) ? (finalX -
-                                                                                       associated.box.x) :
-                                 speed.x * dt);
-            associated.box.y += (abs(finalY - associated.box.y) < abs(speed.y * dt) ? (finalY -
-                                                                                       associated.box.y) :
+            associated.box.x += (abs(finalX - center.x) < abs(speed.x * dt) ? (finalX - center.x) : speed.x *
+                                                                                                    dt);
+
+            associated.box.y += (abs(finalY - center.y) < abs(speed.y * dt) ? (finalY - center.y) :
                                  speed.y * dt);
 
-            if (((associated.box.x <= finalX + MARGIN) && (associated.box.x >= finalX - MARGIN)) &&
-                ((associated.box.y <= finalY + MARGIN) && (associated.box.y >= finalY - MARGIN))) {
+            center = associated.box.CenterRec();
+
+            if (((center.x <= finalX + MARGIN) && (center.x >= finalX - MARGIN)) &&
+                ((center.y <= finalY + MARGIN) && (center.y >= finalY - MARGIN))) {
                 taskQueue.pop();
                 speed.x = 0;
                 speed.y = 0;
@@ -74,11 +76,12 @@ void Alien::Update(float dt) {
                 shared_ptr<GameObject> closest = nullptr;
 
 
-
-                for(auto it = minionArray.begin(); it < minionArray.end(); it++) {
+                for (auto it = minionArray.begin(); it < minionArray.end(); it++) {
                     shared_ptr<GameObject> obj = it->lock();
                     cout << "inside" << endl;
-                    if (obj != nullptr && (closest == nullptr || target.Sum(obj->box.CenterRec(), false).Mag() < target.Sum(closest->box.CenterRec(), false).Mag())) {
+                    if (obj != nullptr && (closest == nullptr ||
+                                           target.Sum(obj->box.CenterRec(), false).Mag() <
+                                           target.Sum(closest->box.CenterRec(), false).Mag())) {
                         closest = obj;
                     }
 
@@ -86,7 +89,7 @@ void Alien::Update(float dt) {
 
                 cout << "2" << endl;
 
-                Minion* minion = (Minion *) closest.get()->GetComponent("Minion");
+                Minion *minion = (Minion *) closest.get()->GetComponent("Minion");
 
                 minion->Shoot(target);
 
@@ -140,6 +143,8 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
+
+    associated.SetCenter();
 
     associated.angleDeg = 0;
     //spr->SetScaleX(2, 2);

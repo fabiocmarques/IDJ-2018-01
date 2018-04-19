@@ -29,16 +29,20 @@ bool Bullet::Is(string type) {
 }
 
 Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance,
-               string sprite) : Component(associated), distanceLeft(maxDistance), damage(damage) {
+               string sprite, int frameCount, float frameTime) : Component(associated), distanceLeft(maxDistance), damage(damage) {
 
     associated.angleDeg = 90 - angle*180/PI;
 
     cout << "Angulo : " << associated.angleDeg << endl;
 
     Sprite* spr = new Sprite(associated, sprite, true);
+    spr->SetFrameCount(frameCount);
+    spr->SetFrame(frameTime);
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
+    
+    associated.SetCenter();
 
     this->speed.x = speed*sin(angle);
     this->speed.y = speed*cos(angle);

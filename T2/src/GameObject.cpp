@@ -6,7 +6,7 @@
 #include "Component.h"
 
 GameObject::GameObject() : isDead(false), started(false), angleDeg(0) {
-
+    box = Rect(0, 0, 0, 0);
 }
 
 GameObject::~GameObject() {
@@ -78,4 +78,14 @@ void GameObject::Start() {
         (*components[i]).Start();
     }
     started = true;
+}
+
+void GameObject::SetCenter(bool CenterX, bool CenterY) {
+    if(CenterX){
+        box.x -= box.w/2;
+    }
+
+    if(CenterY){
+        box.y -= box.h/2;
+    }
 }

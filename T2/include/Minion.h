@@ -11,7 +11,7 @@
 #include <cmath>
 
 #define PI 3.14159265
-#define BULLET_SPEED 80
+#define BULLET_SPEED 150
 
 using namespace std;
 
