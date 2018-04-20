@@ -106,7 +106,7 @@ void Game::Run() {
         CalculateDeltaTime();
         frameStart = SDL_GetTicks();
         InputManager::GetInstance().Update();
-        cout << "DT: " << dt << endl;
+        //cout << "DT: " << dt << endl;
         state->Update(dt);
         state->Render();
 
