@@ -69,7 +69,7 @@ Sprite::Sprite(GameObject &associated) : Component(associated), texture(nullptr)
 }
 
 
-Sprite::Sprite(GameObject &associated, string file, bool center, int frameCount, float frameTime) : Component(associated), texture(nullptr), width(0), height(0), scale(1, 1), centered(center), frameCount(frameCount), frameTime(frameTime), currentFrame(0), timeElapsed(0) {
+Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime) : Component(associated), texture(nullptr), width(0), height(0), scale(1, 1), frameCount(frameCount), frameTime(frameTime), currentFrame(0), timeElapsed(0) {
     Open(file);
 }
 

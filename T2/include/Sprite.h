@@ -24,8 +24,6 @@ class Sprite : public Component{
     SDL_Rect clipRect;
     
     Vec2 scale;
-    
-    bool centered;
 
     int frameCount;
     int currentFrame;
@@ -34,7 +32,7 @@ class Sprite : public Component{
 
 public:
     Sprite(GameObject &associated);
-    Sprite(GameObject &associated, string file, bool center = false, int frameCount = 1, float frameTime = 1);
+    Sprite(GameObject &associated, string file, int frameCount = 1, float frameTime = 1);
 
     ~Sprite();
 

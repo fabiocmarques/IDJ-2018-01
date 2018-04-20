@@ -139,7 +139,7 @@ void Alien::Start() {
 
 Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100),
                                                      minionArray(nMinions) {
-    Sprite *spr = new Sprite(associated, "assets/img/alien.png", true);
+    Sprite *spr = new Sprite(associated, "assets/img/alien.png");
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();

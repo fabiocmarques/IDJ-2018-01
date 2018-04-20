@@ -6,6 +6,7 @@
 #include <Camera.h>
 #include <CameraFollower.h>
 #include <Alien.h>
+#include <PenguinBody.h>
 #include "TileMap.h"
 #include "State.h"
 
@@ -34,14 +35,13 @@ State::State() : started(false) {
 
     objectArray.emplace_back(go2);
 
-
     shared_ptr<GameObject> go3(new GameObject());
     go3->box.x += 512;
     go3->box.y += 300;
-    Alien* a = new Alien(*go3, 6);
+    //Alien* a = new Alien(*go3, 6);
+    PenguinBody* a = new PenguinBody(*go3); 
 
     go3->AddComponent(a);
-    
 
     objectArray.emplace_back(go3);
 
