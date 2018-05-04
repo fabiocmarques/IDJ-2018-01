@@ -63,7 +63,7 @@ Minion::Minion(GameObject &associated,
 
     associated.angleDeg = 90 + arcOffsetDeg;
     
-    cout << sc << endl;
+    //cout << sc << endl;
 
     Vec2 v = *new Vec2(CENTER_DIST, 0);
     v = v.GetRotated(arc);

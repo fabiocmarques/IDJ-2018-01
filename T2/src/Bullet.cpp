@@ -33,7 +33,7 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 
     associated.angleDeg = 90 - angle*180/PI;
 
-    cout << "Angulo : " << associated.angleDeg << endl;
+    //cout << "Angulo : " << associated.angleDeg << endl;
 
     Sprite* spr = new Sprite(associated, sprite, true);
     associated.AddComponent(spr);

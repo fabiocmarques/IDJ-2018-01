@@ -77,20 +77,20 @@ void Alien::Update(float dt) {
 
                 for(auto it = minionArray.begin(); it < minionArray.end(); it++) {
                     shared_ptr<GameObject> obj = it->lock();
-                    cout << "inside" << endl;
+                    //cout << "inside" << endl;
                     if (obj != nullptr && (closest == nullptr || target.Sum(obj->box.CenterRec(), false).Mag() < target.Sum(closest->box.CenterRec(), false).Mag())) {
                         closest = obj;
                     }
 
                 }
 
-                cout << "2" << endl;
+                //cout << "2" << endl;
 
                 Minion* minion = (Minion *) closest.get()->GetComponent("Minion");
 
                 minion->Shoot(target);
 
-                cout << "3" << endl;
+                //cout << "3" << endl;
 
             } else {
                 cout << "No minion associated." << endl;
