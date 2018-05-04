@@ -39,7 +39,8 @@ State::State() : started(false) {
     go3->box.x += 512;
     go3->box.y += 300;
     //Alien* a = new Alien(*go3, 6);
-    PenguinBody* a = new PenguinBody(*go3); 
+    PenguinBody* a = new PenguinBody(*go3);
+    //go3->AddComponent(new CameraFollower(*go3)); 
 
     go3->AddComponent(a);
 

@@ -9,55 +9,64 @@
 #include "PenguinBody.h"
 
 #define MAX_SPEED 200
-#define SPEED_STEP 1
+#define SPEED_STEP 10
 #define STOP_ACC SPEED_STEP*5
+#define ROT_SPEED 1.5
 
 PenguinBody* PenguinBody::player = nullptr;
 
 void PenguinBody::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
+    shared_ptr<GameObject> cannon = nullptr;
     
-//    if(IM.IsKeyDown('w') || IM.IsKeyDown('W')){
-//
-//        if(linearSpeed < MAX_SPEED){
-//            linearSpeed += (linearSpeed + SPEED_STEP*dt > MAX_SPEED ? MAX_SPEED - linearSpeed : SPEED_STEP*dt);
-//        }
-//        
-////        if(speed.x < MAX_SPEED){
-////            speed.x += (speed.x + SPEED_STEP*dt > MAX_SPEED ? MAX_SPEED - speed.x : SPEED_STEP*dt);
-////        }
-////
-////        if(speed.y < MAX_SPEED){
-////            speed.y += (speed.y + SPEED_STEP*dt > MAX_SPEED ? MAX_SPEED - speed.y : SPEED_STEP*dt);
-////        }        
-//        
-//    } else if(IM.IsKeyDown('s') || IM.IsKeyDown('S')){
-//
-//        if(linearSpeed > -MAX_SPEED){
-//            linearSpeed -= (linearSpeed - SPEED_STEP*dt < -MAX_SPEED ? MAX_SPEED + linearSpeed : 
-//            SPEED_STEP*dt);
-//        }
-//        
-////        if(speed.x > -MAX_SPEED){
-////            speed.x -= (speed.x - SPEED_STEP*dt < -MAX_SPEED ? MAX_SPEED + speed.x : SPEED_STEP*dt);
-////        }
-////
-////        if(speed.y > -MAX_SPEED){
-////            speed.y -= (speed.y - SPEED_STEP*dt < -MAX_SPEED ? MAX_SPEED + speed.y : SPEED_STEP*dt);
-////        }
-//    } else{
-//        if(linearSpeed > 0){
-//            linearSpeed -= (linearSpeed - STOP_ACC*dt < 0 ? linearSpeed : STOP_ACC*dt);
-//        } else{
-//            linearSpeed += (linearSpeed + STOP_ACC*dt > 0 ? -linearSpeed : STOP_ACC*dt);
-//        }
-//    }
-//
-//    if(IM.IsKeyDown('a') || IM.IsKeyDown('A')){
-//    
-//    } else if(IM.IsKeyDown('d') || IM.IsKeyDown('D')){
-//    
-//    }
+    if(IM.IsKeyDown('w') || IM.IsKeyDown('W')){
+
+        if(linearSpeed < MAX_SPEED){
+            linearSpeed += (linearSpeed + SPEED_STEP*dt > MAX_SPEED ? MAX_SPEED - linearSpeed : SPEED_STEP*dt);
+        }
+
+    } else if(IM.IsKeyDown('s') || IM.IsKeyDown('S')){
+
+        if(linearSpeed > -MAX_SPEED){
+            linearSpeed -= (linearSpeed - SPEED_STEP*dt < -MAX_SPEED ? MAX_SPEED + linearSpeed : 
+            SPEED_STEP*dt);
+        }
+        
+    } else{
+        if(linearSpeed > 0){
+            linearSpeed -= (linearSpeed - STOP_ACC*dt < 0 ? linearSpeed : STOP_ACC*dt);
+        } else{
+            linearSpeed += (linearSpeed + STOP_ACC*dt > 0 ? -linearSpeed : STOP_ACC*dt);
+        }
+    }
+
+    if(IM.IsKeyDown('a') || IM.IsKeyDown('A')){
+        angle -= ROT_SPEED * dt;
+    } else if(IM.IsKeyDown('d') || IM.IsKeyDown('D')){
+        angle += ROT_SPEED * dt;
+    }
+    
+    associated.angleDeg = angle*180/PI;
+    
+    speed.x = linearSpeed*cos(angle);
+    associated.box.x += speed.x;
+
+    speed.y = linearSpeed*sin(angle);
+    associated.box.y += speed.y;
+    
+    cannon = pcannon.lock();
+    if(cannon == nullptr){
+        cout << "Penguin Cannon not found." << endl;
+        exit(1);
+    } else{
+        cannon->box.x += speed.x;
+        cannon->box.y += speed.y;
+    }
+    
+    if(hp <= 0){
+        cannon->RequestDelete();
+        associated.RequestDelete();
+    }
     
     
     
