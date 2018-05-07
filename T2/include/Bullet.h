@@ -10,6 +10,7 @@
 
 #include <Component.h>
 #include <cmath>
+#include "Being.h"
 
 class Bullet : public Component {
     Vec2 speed;
@@ -17,14 +18,17 @@ class Bullet : public Component {
     int damage;
 
 public:
-    Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, string sprite, 
-    int frameCount, float frameTime);
+    bool targetsPlayer;
+
+    Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, string sprite, int frameCount, float frameTime, bool targetsPlayer);
 
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
 
     int GetDamage();
+
+    void NotifyCollision(GameObject& other) override;
 
 };
 

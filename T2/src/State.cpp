@@ -113,7 +113,9 @@ void State::Update(float dt) {
             bool colision = Collision::IsColliding(col->box, intCol->box, (float)(objectArray[colliderIndexes[i]]->angleDeg*PI/180), (float)(objectArray[colliderIndexes[j]]->angleDeg*PI/180));
 
             if(colision){
-                cout << "Colides. i: " << i << " j: " << j <<  endl;
+                //cout << "Colides. i: " << i << " j: " << j <<  endl;
+                objectArray[colliderIndexes[i]]->NotifyCollision(*(objectArray[colliderIndexes[j]].get()));
+                objectArray[colliderIndexes[j]]->NotifyCollision(*(objectArray[colliderIndexes[i]].get()));
             }
         }
     }

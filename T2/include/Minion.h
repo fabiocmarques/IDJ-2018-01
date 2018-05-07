@@ -8,6 +8,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "Being.h"
 #include <cmath>
 
 #define PI 3.14159265
@@ -15,7 +16,7 @@
 
 using namespace std;
 
-class Minion : public Component {
+class Minion : public Component, public Being {
     GameObject& alienCenter;
     float arc;
 
@@ -27,6 +28,8 @@ public:
     bool Is(string type) override;
 
     void Shoot(Vec2 target);
+
+    void NotifyCollision(GameObject& other) override;
 };
 
 

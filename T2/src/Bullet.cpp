@@ -29,12 +29,11 @@ bool Bullet::Is(string type) {
     return type == "Bullet";
 }
 
-Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance,
-               string sprite, int frameCount, float frameTime) : Component(associated), distanceLeft(maxDistance), damage(damage) {
+Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance, string sprite, int frameCount, float frameTime, bool targetsPlayer) : Component(associated), distanceLeft(maxDistance), damage(damage), targetsPlayer(targetsPlayer) {
 
     associated.angleDeg = 90 - angle*180/PI;
 
-    cout << "Angulo : " << associated.angleDeg << endl;
+    //cout << "Angulo : " << associated.angleDeg << endl;
 
     Sprite* spr = new Sprite(associated, sprite, frameCount, frameTime);
 //    spr->SetFrameCount(frameCount);
@@ -53,4 +52,12 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 
 int Bullet::GetDamage() {
     return damage;
+}
+
+void Bullet::NotifyCollision(GameObject& other) {
+    auto being = other.GetComponent("Being");
+
+    if(being != nullptr){
+        associated.RequestDelete();
+    }
 }

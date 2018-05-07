@@ -52,7 +52,7 @@ void GameObject::RemoveComponent(Component *cpt) {
         int i = 0;
         for( ; i < (int)components.size(); ++i){
             if(components[i] == cpt){
-                cout << "Removing obj." << endl;
+                //cout << "Removing obj." << endl;
                 components.erase(components.begin() + i);
                 break;
             }

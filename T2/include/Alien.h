@@ -9,10 +9,11 @@
 #include <queue>
 #include <vector>
 #include "Component.h"
+#include "Being.h"
 
 using namespace std;
 
-class Alien : public Component {
+class Alien : public Component, public Being {
     class Action{
     public:
 
@@ -40,6 +41,8 @@ public:
 
     Alien(GameObject& associated, int nMinions);
     ~Alien();
+
+    void NotifyCollision(GameObject& other) override;
 
 };
 

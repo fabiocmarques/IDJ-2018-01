@@ -9,7 +9,7 @@
 #include <memory>
 #include "Component.h"
 
-#define BULLET_SPEED 100
+#define BULLET_SPEED 200
 
 using namespace std;
 

@@ -9,12 +9,13 @@
 #include <Component.h>
 #include <iostream>
 #include <cmath>
+#include "Being.h"
 
 #define PI 3.14159265
 
 using namespace std;
 
-class PenguinBody : public Component {
+class PenguinBody : public Component, public Being {
     weak_ptr<GameObject> pcannon;
     Vec2 speed;
     float linearSpeed;
@@ -27,11 +28,12 @@ public:
     bool Is(string type) override;
     void Start() override;
     
-    PenguinBody(GameObject& associated);
-    ~PenguinBody();
+    explicit PenguinBody(GameObject& associated);
+    ~PenguinBody() final;
     
-    static PenguinBody* player;   
-    
+    static PenguinBody* player;
+
+    void NotifyCollision(GameObject& other) override;
 };
 
 

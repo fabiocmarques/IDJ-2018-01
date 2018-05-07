@@ -8,6 +8,7 @@
 #include <Minion.h>
 #include <Game.h>
 #include <Collider.h>
+#include <Bullet.h>
 #include "Alien.h"
 
 #define ROT_SPEED 0.15
@@ -69,7 +70,7 @@ void Alien::Update(float dt) {
             }
 
 
-        } else if (taskQueue.front().type == Action::SHOOT) {
+       } else if (taskQueue.front().type == Action::SHOOT) {
             if (!minionArray.empty()) {
                 float distX = IM.GetMouseX() + Camera::pos.x, distY = IM.GetMouseY() + Camera::pos.y;
                 Vec2 target(distX, distY);
@@ -79,7 +80,7 @@ void Alien::Update(float dt) {
 
                 for (auto it = minionArray.begin(); it < minionArray.end(); it++) {
                     shared_ptr<GameObject> obj = it->lock();
-                    cout << "inside" << endl;
+                    //cout << "inside" << endl;
                     if (obj != nullptr && (closest == nullptr ||
                                            target.Sum(obj->box.GetCenter(), false).Mag() <
                                            target.Sum(closest->box.GetCenter(), false).Mag())) {
@@ -88,13 +89,13 @@ void Alien::Update(float dt) {
 
                 }
 
-                cout << "2" << endl;
+                //cout << "2" << endl;
 
                 Minion *minion = (Minion *) closest.get()->GetComponent("Minion");
 
                 minion->Shoot(target);
 
-                cout << "3" << endl;
+                //cout << "3" << endl;
 
             } else {
                 cout << "No minion associated." << endl;
@@ -114,7 +115,7 @@ void Alien::Render() {
 }
 
 bool Alien::Is(string type) {
-    return type == "Alien";
+    return (type == "Alien" || Being::Is(type));
 }
 
 void Alien::Start() {
@@ -155,6 +156,7 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
 }
 
 Alien::~Alien() {
+    cout << "Alien sumindo." << endl;
     for (auto it = minionArray.begin(); it != minionArray.end();) {
         if (it->lock() != nullptr) {
             (it->lock().get())->RequestDelete();
@@ -164,6 +166,16 @@ Alien::~Alien() {
     }
 
     minionArray.clear();
+    cout << "Alien sumiu." << endl;
+}
+
+void Alien::NotifyCollision(GameObject &other) {
+    auto bullet = (Bullet*)other.GetComponent("Bullet");
+
+    if(bullet != nullptr && !bullet->targetsPlayer){
+        hp -= bullet->GetDamage();
+        cout << "Alien HP: " << hp << endl;
+    }
 }
 
 Alien::Action::Action(Alien::Action::ActionType type, float x, float y) : type(type), pos(x, y) {

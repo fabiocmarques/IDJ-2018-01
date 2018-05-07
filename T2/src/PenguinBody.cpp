@@ -8,6 +8,8 @@
 #include <Game.h>
 #include <CameraFollower.h>
 #include <Collider.h>
+#include <Bullet.h>
+#include <Camera.h>
 #include "PenguinBody.h"
 
 #define MAX_SPEED 200
@@ -20,14 +22,20 @@ PenguinBody* PenguinBody::player = nullptr;
 void PenguinBody::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
     shared_ptr<GameObject> cannon = nullptr;
-    
+
+
+
     if(IM.IsKeyDown('w') || IM.IsKeyDown('W')){
+
+        cout << "Body W." << endl;
 
         if(linearSpeed < MAX_SPEED){
             linearSpeed += (linearSpeed + SPEED_STEP*dt > MAX_SPEED ? MAX_SPEED - linearSpeed : SPEED_STEP*dt);
         }
 
     } else if(IM.IsKeyDown('s') || IM.IsKeyDown('S')){
+
+        cout << "Body S." << endl;
 
         if(linearSpeed > -MAX_SPEED){
             linearSpeed -= (linearSpeed - SPEED_STEP*dt < -MAX_SPEED ? MAX_SPEED + linearSpeed : 
@@ -43,8 +51,11 @@ void PenguinBody::Update(float dt) {
     }
 
     if(IM.IsKeyDown('a') || IM.IsKeyDown('A')){
+        cout << "Body A." << endl;
+
         angle -= ROT_SPEED * dt;
     } else if(IM.IsKeyDown('d') || IM.IsKeyDown('D')){
+        cout << "Body D." << endl;
         angle += ROT_SPEED * dt;
     }
     
@@ -55,15 +66,6 @@ void PenguinBody::Update(float dt) {
 
     speed.y = linearSpeed*sin(angle);
     associated.box.y += speed.y;
-    
-//    cannon = pcannon.lock();
-//    if(cannon == nullptr){
-//        cout << "Penguin Cannon not found." << endl;
-//        exit(1);
-//    } else{
-//        cannon->box.x += speed.x;
-//        cannon->box.y += speed.y;
-//    }
     
     if(hp <= 0){
         cannon->RequestDelete();
@@ -79,7 +81,7 @@ void PenguinBody::Render() {
 }
 
 bool PenguinBody::Is(string type) {
-    return type == "PenguinBody";
+    return (type == "PenguinBody" || Being::Is(type));
 }
 
 void PenguinBody::Start() {
@@ -117,4 +119,16 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated), speed(
 
 PenguinBody::~PenguinBody() {
     PenguinBody::player = nullptr;
+}
+
+void PenguinBody::NotifyCollision(GameObject &other) {
+    auto bullet = (Bullet*)other.GetComponent("Bullet");
+
+    if(bullet != nullptr && bullet->targetsPlayer){
+        hp -= bullet->GetDamage();
+
+        if(hp <= 0){
+            Camera::Unfollow();
+        }
+    }
 }
