@@ -20,3 +20,7 @@ void Component::Start() {
 void Component::NotifyCollision(GameObject &other) {
 
 }
+
+Vec2 Component::GetPosition() {
+    return associated.box.GetCenter();
+}

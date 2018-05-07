@@ -23,6 +23,8 @@ public:
     virtual void Start();
     virtual void NotifyCollision(GameObject& other);
 
+    virtual Vec2 GetPosition();
+
 protected:
     GameObject& associated;
 };

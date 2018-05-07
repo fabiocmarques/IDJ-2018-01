@@ -11,29 +11,29 @@
 #include "Component.h"
 #include "Being.h"
 
+#define COOLDOWN 4
+
 using namespace std;
 
 class Alien : public Component, public Being {
-    class Action{
-    public:
 
-        enum ActionType{
-            MOVE,
-            SHOOT
-        };
-
-        Action(ActionType type, float x, float y);
-
-        ActionType type;
-        Vec2 pos;
+    enum AlienState{
+        MOVING,
+        RESTING
     };
 
     Vec2 speed;
     int hp;
-
-    queue<Action> taskQueue;
     vector<weak_ptr<GameObject>> minionArray;
+
+    AlienState state;
+    Timer restTimer;
+    Vec2 destination;
+
+    void Shoot(Vec2 tg);
 public:
+    static int alienCount;
+
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
