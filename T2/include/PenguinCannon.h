@@ -8,6 +8,7 @@
 #include <iostream>
 #include <memory>
 #include "Component.h"
+#include "Timer.h"
 
 #define BULLET_SPEED 200
 
@@ -15,7 +16,9 @@ using namespace std;
 
 class PenguinCannon : public Component {
     weak_ptr<GameObject> pbody;
-    float angle;
+    float angle = 0;
+    
+    Timer timer;
 
 public:
     void Update(float dt) override;

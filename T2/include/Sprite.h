@@ -13,6 +13,7 @@
 #include "SDL_include.h"
 
 #include "Component.h"
+#include "Timer.h"
 
 using namespace std;
 
@@ -29,10 +30,14 @@ class Sprite : public Component{
     int currentFrame;
     float timeElapsed;
     float frameTime;
+    
+    Timer selfDestructCout;
+    float secondsToSelfDestruct;
 
 public:
     Sprite(GameObject &associated);
-    Sprite(GameObject &associated, string file, int frameCount = 1, float frameTime = 1);
+    Sprite(GameObject &associated, string file, int frameCount = 1, float frameTime = 1, float 
+    secondsToSelfDestruct = 0);
 
     ~Sprite();
 

@@ -156,7 +156,7 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
 }
 
 Alien::~Alien() {
-    cout << "Alien sumindo." << endl;
+    //cout << "Alien sumindo." << endl;
     for (auto it = minionArray.begin(); it != minionArray.end();) {
         if (it->lock() != nullptr) {
             (it->lock().get())->RequestDelete();
@@ -166,7 +166,7 @@ Alien::~Alien() {
     }
 
     minionArray.clear();
-    cout << "Alien sumiu." << endl;
+    //cout << "Alien sumiu." << endl;
 }
 
 void Alien::NotifyCollision(GameObject &other) {
@@ -174,7 +174,26 @@ void Alien::NotifyCollision(GameObject &other) {
 
     if(bullet != nullptr && !bullet->targetsPlayer){
         hp -= bullet->GetDamage();
-        cout << "Alien HP: " << hp << endl;
+        
+        if(hp <= 0){            
+            Vec2 center = associated.box.GetCenter();
+            shared_ptr<GameObject> go(new GameObject());
+
+            Sprite* spr = new Sprite(*go, "assets/img/aliendeath.png", 4, 0.4, 1.6);
+            go->box.x = center.x;
+            go->box.y = center.y;
+            go->SetCenter();
+            go->AddComponent(spr);
+
+            Sound* boom = new Sound(*go, "assets/audio/boom.wav");
+            go->AddComponent(boom);
+            boom->Play(1);
+
+            //cout << "Shoot" << endl;
+            Game::GetInstance().GetState().AddObject(go);
+
+            associated.RequestDelete();
+        }
     }
 }
 

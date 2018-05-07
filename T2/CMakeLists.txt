@@ -16,5 +16,27 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(BEFORE include)
 include_directories(BEFORE dep)
 
-add_executable(140039082_FabioMarques src/main.cpp src/Game.cpp src/State.cpp src/Sprite.cpp src/Music.cpp
-        src/Rect.cpp include/Rect.h src/Vec2.cpp include/Vec2.h src/Component.cpp include/Component.h src/GameObject.cpp include/GameObject.h src/Sound.cpp include/Sound.h src/TileSet.cpp include/TileSet.h src/TileMap.cpp include/TileMap.h src/Resources.cpp include/Resources.h src/InputManager.cpp include/InputManager.h src/Camera.cpp include/Camera.h src/CameraFollower.cpp include/CameraFollower.h src/Alien.cpp include/Alien.h src/Minion.cpp include/Minion.h src/Bullet.cpp include/Bullet.h src/PenguinBody.cpp include/PenguinBody.h src/PenguinCannon.cpp include/PenguinCannon.h src/Collider.cpp include/Collider.h include/Collision.h src/Being.cpp include/Being.h)
+add_executable(140039082_FabioMarques src/main.cpp 
+    src/Game.cpp 
+    src/State.cpp 
+    src/Sprite.cpp 
+    src/Music.cpp 
+    src/Rect.cpp include/Rect.h 
+    src/Vec2.cpp include/Vec2.h 
+    src/Component.cpp include/Component.h 
+    src/GameObject.cpp include/GameObject.h 
+    src/Sound.cpp include/Sound.h 
+    src/TileSet.cpp include/TileSet.h 
+    src/TileMap.cpp include/TileMap.h 
+    src/Resources.cpp include/Resources.h 
+    src/InputManager.cpp include/InputManager.h 
+    src/Camera.cpp include/Camera.h 
+    src/CameraFollower.cpp include/CameraFollower.h 
+    src/Alien.cpp include/Alien.h 
+    src/Minion.cpp include/Minion.h 
+    src/Bullet.cpp include/Bullet.h 
+    src/PenguinBody.cpp include/PenguinBody.h 
+    src/PenguinCannon.cpp include/PenguinCannon.h 
+    src/Collider.cpp include/Collider.h include/Collision.h 
+    src/Being.cpp include/Being.h 
+    src/Timer.cpp include/Timer.h)

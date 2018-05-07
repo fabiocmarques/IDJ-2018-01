@@ -51,7 +51,7 @@ void Minion::Render() {
 }
 
 bool Minion::Is(string type) {
-    return (type == "Minion" || Being::Is(type));
+    return (type == "Minion");
 }
 
 Minion::Minion(GameObject &associated,
@@ -92,7 +92,8 @@ void Minion::Shoot(Vec2 target) {
     go->box.x = center.x;
     go->box.y = center.y;
 
-    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet2.png", 3, 1, true));
+    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 100, 500, "assets/img/minionbullet2.png", 3, 1, 
+    true));
 
 
     Game::GetInstance().GetState().AddObject(go);

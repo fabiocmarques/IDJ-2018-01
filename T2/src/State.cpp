@@ -52,7 +52,7 @@ State::State() : started(false) {
     go4->box.x += 704;
     go4->box.y += 640;
     PenguinBody* body = new PenguinBody(*go4);
-    go3->AddComponent(body);
+    go4->AddComponent(body);
     //go3->AddComponent(new CameraFollower(*go3, true));
 
     Camera::Follow(go4.get());
@@ -124,7 +124,10 @@ void State::Update(float dt) {
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {
         if(objectArray[i]->IsDead()){
-            if(!Mix_Playing(10)){
+            auto sound = objectArray[i]->GetComponent("Sound");
+            if(sound != nullptr && !Mix_Playing(10)){
+                objectArray.erase(objectArray.begin() + i);
+            } else {
                 objectArray.erase(objectArray.begin() + i);
             }
 

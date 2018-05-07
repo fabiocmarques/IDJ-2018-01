@@ -58,6 +58,9 @@ void Bullet::NotifyCollision(GameObject& other) {
     auto being = other.GetComponent("Being");
 
     if(being != nullptr){
-        associated.RequestDelete();
+        if((being->Is("PenguinBody") && targetsPlayer) || (being->Is("Alien") && !targetsPlayer)){
+            associated.RequestDelete();
+        }
+        
     }
 }
