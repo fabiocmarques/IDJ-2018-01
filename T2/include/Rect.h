@@ -20,7 +20,7 @@ public:
     Rect(float x, float y, float w, float h);
 
     Rect SumVec2(Vec2 v);
-    Vec2 CenterRec();
+    Vec2 GetCenter();
     float DistRecs(Rect r);
     bool Contains(Vec2 v);
 

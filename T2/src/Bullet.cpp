@@ -3,6 +3,7 @@
 //
 
 #include <Sprite.h>
+#include <Collider.h>
 #include "Bullet.h"
 
 void Bullet::Update(float dt) {
@@ -35,9 +36,9 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 
     cout << "Angulo : " << associated.angleDeg << endl;
 
-    Sprite* spr = new Sprite(associated, sprite, true);
-    spr->SetFrameCount(frameCount);
-    spr->SetFrame(frameTime);
+    Sprite* spr = new Sprite(associated, sprite, frameCount, frameTime);
+//    spr->SetFrameCount(frameCount);
+//    spr->SetFrame(frameTime);
     associated.AddComponent(spr);
     associated.box.h = spr->GetHeight();
     associated.box.w = spr->GetWidth();
@@ -46,8 +47,8 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 
     this->speed.x = speed*sin(angle);
     this->speed.y = speed*cos(angle);
-    
-    
+
+    associated.AddComponent(new Collider(associated));
 }
 
 int Bullet::GetDamage() {

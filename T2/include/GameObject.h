@@ -34,6 +34,8 @@ public:
     void RemoveComponent(Component* cpt);
     Component* GetComponent(string type);
 
+    void NotifyCollision(GameObject& other);
+
     void Start();
     
     void SetCenter(bool CenterX = true, bool CenterY = true);

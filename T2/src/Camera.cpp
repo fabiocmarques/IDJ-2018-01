@@ -23,8 +23,9 @@ void Camera::Unfollow() {
 
 void Camera::Update(float dt) {
     if(focus != nullptr){
-        Camera::pos.x = focus->box.x + STD_WIDTH/2;
-        Camera::pos.y = focus->box.y + STD_HEIGHT/2;
+        Vec2 focusCenter = focus->box.GetCenter();
+        Camera::pos.x = focusCenter.x - STD_WIDTH/2;
+        Camera::pos.y = focusCenter.y - STD_HEIGHT/2;
     } else {
         Camera::speed.x = SPEED;
         Camera::speed.y = SPEED;

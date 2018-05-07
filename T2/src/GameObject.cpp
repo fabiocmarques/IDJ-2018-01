@@ -89,3 +89,12 @@ void GameObject::SetCenter(bool CenterX, bool CenterY) {
         box.y -= box.h/2;
     }
 }
+
+void GameObject::NotifyCollision(GameObject &other) {
+    if(!components.empty()){
+
+        for (int i = 0; i < (int)components.size() ; ++i) {
+            components[i]->NotifyCollision(other);
+        }
+    }
+}

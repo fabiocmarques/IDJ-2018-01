@@ -16,7 +16,7 @@ void Sprite::Open(string file) {
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
-    associated.box.w = width/frameCount;
+    associated.box.w = (float)width/frameCount;
     associated.box.h = height;
 
     SetClip(0, 0, width/frameCount, height);
@@ -30,15 +30,15 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 void Sprite::Render() {
-    Render(associated.box.x - (int)Camera::pos.x, associated.box.y - (int)Camera::pos.y);
+    Render((int)associated.box.x - (int)Camera::pos.x, (int)associated.box.y - (int)Camera::pos.y);
 }
 
 int Sprite::GetWidth() {
-    return (width*scale.x)/frameCount;
+    return (int)(width*scale.x)/frameCount;
 }
 
 int Sprite::GetHeight() {
-    return height*scale.y;
+    return (int)(height*scale.y);
 }
 
 bool Sprite::IsOpen() {
@@ -51,7 +51,7 @@ void Sprite::Update(float dt) {
     if(timeElapsed >= frameTime){
         ++currentFrame;
         if(currentFrame >= frameCount){
-            currentFrame = 0;
+            currentFrame = frameCount-1;
         }
 
         timeElapsed = 0;
@@ -91,7 +91,7 @@ Vec2 Sprite::GetScale() {
 void Sprite::SetScaleX(float scaleX, float scaleY) {
     if(scaleX != 0){
         scale.x = scaleX;
-        associated.box.w = (width/frameCount)*scaleX;        
+        associated.box.w = ((float)width/frameCount)*scaleX;
     }
 
     if(scaleY != 0){
@@ -102,7 +102,7 @@ void Sprite::SetScaleX(float scaleX, float scaleY) {
 }
 
 void Sprite::SetFrame(int frame) {
-    SetClip((width/frameCount)*currentFrame,  0, width/frameCount, height);
+    SetClip((width/frameCount)*frame,  0, width/frameCount, height);
 }
 
 void Sprite::SetFrameCount(int frameCount) {

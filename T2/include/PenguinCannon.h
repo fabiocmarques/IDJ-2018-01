@@ -9,6 +9,8 @@
 #include <memory>
 #include "Component.h"
 
+#define BULLET_SPEED 100
+
 using namespace std;
 
 class PenguinCannon : public Component {

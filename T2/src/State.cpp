@@ -7,6 +7,8 @@
 #include <CameraFollower.h>
 #include <Alien.h>
 #include <PenguinBody.h>
+#include <Collider.h>
+#include <Collision.h>
 #include "TileMap.h"
 #include "State.h"
 
@@ -38,13 +40,24 @@ State::State() : started(false) {
     shared_ptr<GameObject> go3(new GameObject());
     go3->box.x += 512;
     go3->box.y += 300;
-    //Alien* a = new Alien(*go3, 6);
-    PenguinBody* a = new PenguinBody(*go3);
-    //go3->AddComponent(new CameraFollower(*go3)); 
-
+    Alien* a = new Alien(*go3, 6);
     go3->AddComponent(a);
+    //go3->AddComponent(new CameraFollower(*go3, true));
 
     objectArray.emplace_back(go3);
+
+
+
+    shared_ptr<GameObject> go4(new GameObject());
+    go4->box.x += 704;
+    go4->box.y += 640;
+    PenguinBody* body = new PenguinBody(*go4);
+    go3->AddComponent(body);
+    //go3->AddComponent(new CameraFollower(*go3, true));
+
+    Camera::Follow(go4.get());
+    objectArray.emplace_back(go4);
+
 
 
     LoadAssets();
@@ -58,6 +71,7 @@ void State::LoadAssets() {
 
 void State::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
+    vector<int> colliderIndexes;
     
     if(IM.IsKeyDown(ESCAPE_KEY) || IM.QuitRequested()){
         quitRequested = true;
@@ -72,7 +86,39 @@ void State::Update(float dt) {
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {
         objectArray[i]->Update(dt);
+
+        Collider* col = (Collider*)objectArray[i]->GetComponent("Collider");
+
+        if(col != nullptr){
+            colliderIndexes.emplace_back(i);
+        }
     }
+
+
+    for (int i = 0; i < (colliderIndexes.size()-1); ++i) {
+        Collider* col = (Collider*)objectArray[colliderIndexes[i]]->GetComponent("Collider");
+        if(col == nullptr){
+            cout << "Wrong collider index." << endl;
+            exit(1);
+        }
+
+        for (int j = i+1; j < colliderIndexes.size(); ++j) {
+            Collider* intCol = (Collider*)objectArray[colliderIndexes[j]]->GetComponent("Collider");
+
+            if(intCol == nullptr){
+                cout << "Wrong internal loop collider index." << endl;
+                exit(1);
+            }
+
+            bool colision = Collision::IsColliding(col->box, intCol->box, (float)(objectArray[colliderIndexes[i]]->angleDeg*PI/180), (float)(objectArray[colliderIndexes[j]]->angleDeg*PI/180));
+
+            if(colision){
+                cout << "Colides. i: " << i << " j: " << j <<  endl;
+            }
+        }
+    }
+
+    colliderIndexes.clear();
 
     for (int i = 0; i < (int)objectArray.size(); ++i) {
         if(objectArray[i]->IsDead()){
@@ -82,6 +128,8 @@ void State::Update(float dt) {
 
         }
     }
+
+
 }
 
 void State::Render() {

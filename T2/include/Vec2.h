@@ -33,7 +33,11 @@ public:
     // Rotaciona o vetor pelo angulo 'ang'.
     Vec2 GetRotated(float ang);
 
-    Vec2 operator+(const Vec2& v);
+    Vec2 operator+(const Vec2& v) const;
+
+    Vec2 operator-(const Vec2& rhs) const;
+
+    Vec2 operator*(float rhs) const;
 };
 
 

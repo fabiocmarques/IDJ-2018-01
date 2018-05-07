@@ -4,6 +4,7 @@
 
 #include <Sprite.h>
 #include <Game.h>
+#include <Collider.h>
 #include "Minion.h"
 #include "Bullet.h"
 
@@ -35,7 +36,7 @@ void Minion::Update(float dt) {
 
         v = v.GetRotated(arc);
 
-        finalPos = alienCenter.box.CenterRec().Sum(v, true);
+        finalPos = alienCenter.box.GetCenter().Sum(v, true);
 
         associated.box.x += finalPos.x;
         associated.box.y += finalPos.y;
@@ -72,17 +73,18 @@ Minion::Minion(GameObject &associated,
     Vec2 v = Vec2(CENTER_DIST, 0);
     v = v.GetRotated(arc);
 
-    Vec2 finalPos = alienCenter.box.CenterRec().Sum(v, true);
+    Vec2 finalPos = alienCenter.box.GetCenter().Sum(v, true);
 
     associated.box.x = finalPos.x;
     associated.box.y = finalPos.y;
 
     associated.SetCenter();
-    
+
+    associated.AddComponent(new Collider(associated));
 }
 
 void Minion::Shoot(Vec2 target) {
-    Vec2 center = associated.box.CenterRec();
+    Vec2 center = associated.box.GetCenter();
     Vec2 vet((target.x)-center.x, (target.y)-center.y);
     float angle = vet.IncX();
 
@@ -90,7 +92,7 @@ void Minion::Shoot(Vec2 target) {
     go->box.x = center.x;
     go->box.y = center.y;
 
-    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet2.png", 3, 300));
+    go->AddComponent(new Bullet(*go, angle, BULLET_SPEED, 10, 500, "assets/img/minionbullet2.png", 3, 1));
 
 
     Game::GetInstance().GetState().AddObject(go);

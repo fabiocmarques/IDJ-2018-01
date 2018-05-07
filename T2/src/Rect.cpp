@@ -17,13 +17,13 @@ Rect Rect::SumVec2(Vec2 v) {
     return Rect(v.x + x, v.y + y, w, h);
 }
 
-Vec2 Rect::CenterRec() {
+Vec2 Rect::GetCenter() {
     return Vec2((this->w/2) + this->x, (this->h/2) + this->y);
 }
 
 float Rect::DistRecs(Rect r) {
-    Vec2 v = this->CenterRec();
-    return v.Dist(r.CenterRec());
+    Vec2 v = this->GetCenter();
+    return v.Dist(r.GetCenter());
 }
 
 bool Rect::Contains(Vec2 v) {

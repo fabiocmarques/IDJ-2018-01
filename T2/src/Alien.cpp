@@ -7,6 +7,7 @@
 #include <Camera.h>
 #include <Minion.h>
 #include <Game.h>
+#include <Collider.h>
 #include "Alien.h"
 
 #define ROT_SPEED 0.15
@@ -17,7 +18,7 @@ void Alien::Update(float dt) {
     InputManager IM = InputManager::GetInstance();
     float finalX;
     float finalY;
-    Vec2 center = associated.box.CenterRec();
+    Vec2 center = associated.box.GetCenter();
 
     associated.angleDeg -= (ROT_SPEED * dt * 180 / PI);
     if (associated.angleDeg <= -360) {
@@ -58,7 +59,7 @@ void Alien::Update(float dt) {
             associated.box.y += (abs(finalY - center.y) < abs(speed.y * dt) ? (finalY - center.y) :
                                  speed.y * dt);
 
-            center = associated.box.CenterRec();
+            center = associated.box.GetCenter();
 
             if (((center.x <= finalX + MARGIN) && (center.x >= finalX - MARGIN)) &&
                 ((center.y <= finalY + MARGIN) && (center.y >= finalY - MARGIN))) {
@@ -80,8 +81,8 @@ void Alien::Update(float dt) {
                     shared_ptr<GameObject> obj = it->lock();
                     cout << "inside" << endl;
                     if (obj != nullptr && (closest == nullptr ||
-                                           target.Sum(obj->box.CenterRec(), false).Mag() <
-                                           target.Sum(closest->box.CenterRec(), false).Mag())) {
+                                           target.Sum(obj->box.GetCenter(), false).Mag() <
+                                           target.Sum(closest->box.GetCenter(), false).Mag())) {
                         closest = obj;
                     }
 
@@ -147,6 +148,8 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
     associated.SetCenter();
 
     associated.angleDeg = 0;
+
+    associated.AddComponent(new Collider(associated));
     //spr->SetScaleX(2, 2);
 
 }

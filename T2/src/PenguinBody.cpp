@@ -6,6 +6,8 @@
 #include <PenguinCannon.h>
 #include <InputManager.h>
 #include <Game.h>
+#include <CameraFollower.h>
+#include <Collider.h>
 #include "PenguinBody.h"
 
 #define MAX_SPEED 200
@@ -54,14 +56,14 @@ void PenguinBody::Update(float dt) {
     speed.y = linearSpeed*sin(angle);
     associated.box.y += speed.y;
     
-    cannon = pcannon.lock();
-    if(cannon == nullptr){
-        cout << "Penguin Cannon not found." << endl;
-        exit(1);
-    } else{
-        cannon->box.x += speed.x;
-        cannon->box.y += speed.y;
-    }
+//    cannon = pcannon.lock();
+//    if(cannon == nullptr){
+//        cout << "Penguin Cannon not found." << endl;
+//        exit(1);
+//    } else{
+//        cannon->box.x += speed.x;
+//        cannon->box.y += speed.y;
+//    }
     
     if(hp <= 0){
         cannon->RequestDelete();
@@ -82,20 +84,21 @@ bool PenguinBody::Is(string type) {
 
 void PenguinBody::Start() {
     shared_ptr<GameObject> go(new GameObject());
-    Vec2 center = associated.box.CenterRec();
+    Vec2 center = associated.box.GetCenter();
     weak_ptr<GameObject> body = Game::GetInstance().GetState().GetObjectPtr(&associated);
-    
+
     go->box.x = center.x;
     go->box.y = center.y;
     go->AddComponent(new PenguinCannon(*go, body));
+    //go->AddComponent(new CameraFollower(*go, true));
 
     Game::GetInstance().GetState().AddObject(go);
-    
-    pcannon = Game::GetInstance().GetState().GetObjectPtr(go.get());        
+
+    pcannon = Game::GetInstance().GetState().GetObjectPtr(go.get());
 }
 
 PenguinBody::PenguinBody(GameObject &associated) : Component(associated), speed(0, 0), linearSpeed
-(0), angle(0), hp(0) {
+(0), angle(0), hp(100) {
 
     //pcannon = weak_ptr<GameObject>();
     
@@ -108,6 +111,8 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated), speed(
     associated.SetCenter();
     
     PenguinBody::player = this;
+
+    associated.AddComponent(new Collider(associated));
 }
 
 PenguinBody::~PenguinBody() {

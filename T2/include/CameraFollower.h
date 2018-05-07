@@ -7,16 +7,22 @@
 
 
 #include "Component.h"
+#include "Game.h"
 
 class CameraFollower : public Component {
+    bool adjustCenter;
+
+    void AdjustCenter();
 public:
-    CameraFollower(GameObject& go);
+    CameraFollower(GameObject& go, bool adjCenter = false);
 
     void Update(float dt) override;
 
     void Render() override;
 
     bool Is(string type) override;
+
+
 };
 
 

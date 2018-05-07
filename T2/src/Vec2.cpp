@@ -17,10 +17,10 @@ Vec2::Vec2(float x, float y) {
 Vec2 Vec2::Sum(Vec2 v, bool sum) {
     Vec2 ret;
 
-    if(sum){
+    if (sum) {
         ret.x = x + v.x;
         ret.y = y + v.y;
-    } else{
+    } else {
         ret.x = x - v.x;
         ret.y = y - v.y;
     }
@@ -38,7 +38,7 @@ Vec2 Vec2::MultEsc(int esc) {
 }
 
 float Vec2::Mag() {
-    return (float)sqrtf(((this->x * this->x) + (this->y * this->y)));
+    return (float) sqrtf(((this->x * this->x) + (this->y * this->y)));
 }
 
 Vec2 Vec2::Norm() {
@@ -48,11 +48,11 @@ Vec2 Vec2::Norm() {
 
 float Vec2::Dist(Vec2 v) {
     Vec2 ret = this->Sum(v, false);
-    return (float)ret.Mag();
+    return (float) ret.Mag();
 }
 
 float Vec2::IncX() {
-    return (float)atan2(this->x, this->y);
+    return (float) atan2(this->x, this->y);
 }
 
 float Vec2::Incl(Vec2 v) {
@@ -61,11 +61,19 @@ float Vec2::Incl(Vec2 v) {
 }
 
 Vec2 Vec2::GetRotated(float ang) {
-    return Vec2(x*cos(ang) - y*sin(ang), y*cos(ang) + x*sin(ang));
+    return {(float) (x * cos(ang) - y * sin(ang)), (float) (y * cos(ang) + x * sin(ang))};
 }
 
-Vec2 Vec2::operator+(const Vec2& v) {
-    return Vec2(x + v.x, y + v.y );
+Vec2 Vec2::operator+(const Vec2 &rhs) const {
+    return Vec2(x + rhs.x, y + rhs.y);
+}
+
+Vec2 Vec2::operator-(const Vec2 &rhs) const {
+    return Vec2(x - rhs.x, y - rhs.y);
+}
+
+Vec2 Vec2::operator*(const float rhs) const {
+    return Vec2(x * rhs, y * rhs);
 }
 
 
