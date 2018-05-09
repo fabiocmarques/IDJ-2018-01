@@ -7,39 +7,45 @@
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
-
 #include "State.h"
+
 
 #include <string>
 #include <iostream>
 #include <ctime>
+#include <stack>
 
 using namespace std;
-
-
 
 #ifndef T1_GAME_H
 #define T1_GAME_H
 
 class Game {
 
-    static Game *instance;
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    State *state;
-
-    Game(string title, int width, int height);
-
     int frameStart;
     float dt;
 
+    static Game *instance;
+
+    State* storedState;
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+
+    stack<unique_ptr<State>> stateStack;
+
     void CalculateDeltaTime();
+
 public:
+    Game(string title, int width, int height);
     ~Game();
-    void Run();
-    SDL_Renderer* GetRenderer();
-    State& GetState();
+
     static Game& GetInstance();
+    SDL_Renderer* GetRenderer();
+    State& GetCurrentState();
+
+    void Push(State* state);
+
+    void Run();
 
     float GetDeltaTime();
 };

@@ -1,70 +1,62 @@
 //
-// Created by fabio on 15/03/18.
+// Created by Fabio Marques on 08/05/2018.
 //
 
-#include <InputManager.h>
-#include <Camera.h>
-#include <CameraFollower.h>
-#include <Alien.h>
-#include <PenguinBody.h>
-#include <Collider.h>
-#include <Collision.h>
-#include "TileMap.h"
 #include "State.h"
 
-State::State() : started(false) {
-    shared_ptr<GameObject> go(new GameObject());
-    Sprite *spr = new Sprite(*go, "assets/img/ocean.jpg");
-
-    go->AddComponent(new CameraFollower(*go));
-    go->AddComponent(spr);
-    go->box.x = 0;
-    go->box.y = 0;
-    go->box.h = spr->GetHeight();
-    go->box.w = spr->GetWidth();
-
-    objectArray.emplace_back(go);
-
-
-    shared_ptr<GameObject> go2(new GameObject());
-    TileSet *ts = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
-    TileMap *map = new TileMap(*go2, "assets/map/tileMap.txt", ts);
-
-
-    go2->AddComponent(map);
-    go2->box.x = 0;
-    go2->box.y = 0;
-
-    objectArray.emplace_back(go2);
-
-    shared_ptr<GameObject> go3(new GameObject());
-    go3->box.x += 512;
-    go3->box.y += 300;
-    Alien *a = new Alien(*go3, 6);
-    go3->AddComponent(a);
-    //go3->AddComponent(new CameraFollower(*go3, true));
-
-    objectArray.emplace_back(go3);
-
-
-    shared_ptr<GameObject> go4(new GameObject());
-    go4->box.x += 704;
-    go4->box.y += 640;
-    PenguinBody *body = new PenguinBody(*go4);
-    go4->AddComponent(body);
-    //go3->AddComponent(new CameraFollower(*go3, true));
-
-    Camera::Follow(go4.get());
-    objectArray.emplace_back(go4);
-
-
-    LoadAssets();
-    quitRequested = false;
-    music.Play();
+State::State() : started(false), quitRequested(false), popRequested(false) {
+//    shared_ptr<GameObject> go(new GameObject());
+//    Sprite *spr = new Sprite(*go, "assets/img/ocean.jpg");
+//
+//    go->AddComponent(new CameraFollower(*go));
+//    go->AddComponent(spr);
+//    go->box.x = 0;
+//    go->box.y = 0;
+//    go->box.h = spr->GetHeight();
+//    go->box.w = spr->GetWidth();
+//
+//    objectArray.emplace_back(go);
+//
+//
+//    shared_ptr<GameObject> go2(new GameObject());
+//    TileSet *ts = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
+//    TileMap *map = new TileMap(*go2, "assets/map/tileMap.txt", ts);
+//
+//
+//    go2->AddComponent(map);
+//    go2->box.x = 0;
+//    go2->box.y = 0;
+//
+//    objectArray.emplace_back(go2);
+//
+//    shared_ptr<GameObject> go3(new GameObject());
+//    go3->box.x += 512;
+//    go3->box.y += 300;
+//    Alien *a = new Alien(*go3, 6);
+//    go3->AddComponent(a);
+//    //go3->AddComponent(new CameraFollower(*go3, true));
+//
+//    objectArray.emplace_back(go3);
+//
+//
+//    shared_ptr<GameObject> go4(new GameObject());
+//    go4->box.x += 704;
+//    go4->box.y += 640;
+//    PenguinBody *body = new PenguinBody(*go4);
+//    go4->AddComponent(body);
+//    //go3->AddComponent(new CameraFollower(*go3, true));
+//
+//    Camera::Follow(go4.get());
+//    objectArray.emplace_back(go4);
+//
+//
+//    LoadAssets();
+//    quitRequested = false;
+//    music.Play();
 }
 
 void State::LoadAssets() {
-    music.Open("assets/audio/stageState.ogg");
+    //music.Open("assets/audio/stageState.ogg");
 }
 
 void State::Update(float dt) {
@@ -153,23 +145,17 @@ void State::AddObject(float mouseX, float mouseY) {
 }
 
 void State::Start() {
-    LoadAssets();
-
-    for (int i = 0; i < (int) objectArray.size(); ++i) {
-        objectArray[i]->Start();
-    }
-
     started = true;
 }
 
-weak_ptr<GameObject> State::AddObject(shared_ptr<GameObject> go) {
-
-    objectArray.push_back(go);
+weak_ptr<GameObject> State::AddObject(GameObject* go) {
+    shared_ptr<GameObject> ptr = shared_ptr<GameObject>(go);
+    objectArray.push_back(shared_ptr<GameObject>(ptr));
     if (started) {
-        go->Start();
+        ptr->Start();
     }
 
-    return weak_ptr<GameObject>(go);
+    return weak_ptr<GameObject>(ptr);
 }
 
 weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {
@@ -181,4 +167,28 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {
     }
 
     return weak_ptr<GameObject>();
+}
+
+void State::StartArray() {
+    LoadAssets();
+
+    for (int i = 0; i < (int) objectArray.size(); ++i) {
+        objectArray[i]->Start();
+    }
+}
+
+void State::UpdateArray(float dt) {
+    for (int i = 0; i < (int) objectArray.size(); ++i) {
+        objectArray[i]->Update(dt);
+    }
+}
+
+void State::RenderArray() {
+    for (int i = 0; i < (int) objectArray.size(); ++i) {
+        objectArray[i]->Render();
+    }
+}
+
+bool State::PopRequested() {
+    return popRequested;
 }

@@ -18,7 +18,7 @@ include_directories(BEFORE dep)
 
 add_executable(140039082_FabioMarques src/main.cpp 
     src/Game.cpp 
-    src/State.cpp 
+    src/StageState.cpp
     src/Sprite.cpp 
     src/Music.cpp 
     src/Rect.cpp include/Rect.h 
@@ -39,4 +39,5 @@ add_executable(140039082_FabioMarques src/main.cpp
     src/PenguinCannon.cpp include/PenguinCannon.h 
     src/Collider.cpp include/Collider.h include/Collision.h 
     src/Being.cpp include/Being.h 
-    src/Timer.cpp include/Timer.h)
+    src/Timer.cpp include/Timer.h
+    src/State.cpp include/State.h)
