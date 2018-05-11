@@ -10,6 +10,7 @@
 #include <Collider.h>
 #include <Bullet.h>
 #include <PenguinBody.h>
+#include <Sound.h>
 #include "Alien.h"
 
 #define ROT_SPEED 0.15
@@ -97,13 +98,13 @@ void Alien::Start() {
     if (!minionArray.empty()) {
 
         int angleStep = 360 / minionArray.size();
-        weak_ptr<GameObject> alienPtr = Game::GetInstance().GetState().GetObjectPtr(&associated);
+        weak_ptr<GameObject> alienPtr = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
 
         for (int angle = 0, i = 0; angle < 360; angle += angleStep, ++i) {
             shared_ptr<GameObject> go = shared_ptr<GameObject>(new GameObject());
             go->AddComponent(new Minion(*go, alienPtr, angle));
 
-            Game::GetInstance().GetState().AddObject(go);
+            Game::GetInstance().GetCurrentState().AddObject(go.get());
 
             minionArray[i] = weak_ptr<GameObject>(go);
         }
@@ -156,7 +157,7 @@ void Alien::NotifyCollision(GameObject &other) {
 
         if (hp <= 0) {
             Vec2 center = associated.box.GetCenter();
-            shared_ptr<GameObject> go(new GameObject());
+            GameObject* go = new GameObject();
 
             Sprite *spr = new Sprite(*go, "assets/img/aliendeath.png", 4, 0.4, 1.6);
             go->box.x = center.x;
@@ -164,12 +165,12 @@ void Alien::NotifyCollision(GameObject &other) {
             go->SetCenter();
             go->AddComponent(spr);
 
-            Sound *boom = new Sound(*go, "assets/audio/boom.wav");
+            Sound* boom = new Sound(*go, "assets/audio/boom.wav");
             go->AddComponent(boom);
             boom->Play(1);
 
             //cout << "Shoot" << endl;
-            Game::GetInstance().GetState().AddObject(go);
+            Game::GetInstance().GetCurrentState().AddObject(go);
 
             associated.RequestDelete();
         }

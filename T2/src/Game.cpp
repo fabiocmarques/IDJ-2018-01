@@ -7,6 +7,7 @@
 
 #include <Resources.h>
 #include <InputManager.h>
+#include <StageState.h>
 #include "../include/Game.h"
 
 Game *Game::instance = nullptr;
@@ -106,7 +107,7 @@ Game::~Game() {
 }
 
 State& Game::GetCurrentState() {
-    return (State&)stateStack.top();
+    return *(stateStack.top().get());
 }
 
 SDL_Renderer* Game::GetRenderer() {
@@ -120,22 +121,22 @@ void Game::Run() {
         exit(1);
     }
 
-    stateStack.push(storedState);
+    stateStack.emplace(storedState);
     storedState = nullptr;
 
-    while (!stateStack.empty() && !((State*)stateStack.top())->QuitRequested()) {
+    while (!stateStack.empty() && stateStack.top()->QuitRequested()) {
 
-        if(((State*)stateStack.top())->PopRequested()){
+        if(stateStack.top()->PopRequested()){
             stateStack.pop();
             if(!stateStack.empty()){
-                ((State*)stateStack.top())->Resume();
+                stateStack.top()->Resume();
             }
         }
 
         if(storedState != nullptr){
-            ((State*)stateStack.top())->Pause();
-            stateStack.push(storedState);
-            ((State*)stateStack.top())->Resume();
+            stateStack.top()->Pause();
+            stateStack.emplace(storedState);
+            stateStack.top()->Resume();
             storedState = nullptr;
         }
 
@@ -143,16 +144,13 @@ void Game::Run() {
         frameStart = SDL_GetTicks();
         InputManager::GetInstance().Update();
         //cout << "DT: " << dt << endl;
-        ((State*)stateStack.top())->Update(dt);
-        ((State*)stateStack.top())->Render();
+        stateStack.top()->Update(dt);
+        stateStack.top()->Render();
 
         SDL_RenderPresent(renderer);
         SDL_Delay(33);
     }
-
-//    Resources::ClearImages();
-//    Resources::ClearMusics();
-//    Resources::ClearSounds();
+    
 }
 
 void Game::CalculateDeltaTime() {

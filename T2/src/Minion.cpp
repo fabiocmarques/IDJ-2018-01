@@ -88,7 +88,7 @@ void Minion::Shoot(Vec2 target) {
     Vec2 vet((target.x)-center.x, (target.y)-center.y);
     float angle = vet.IncX();
 
-    shared_ptr<GameObject> go(new GameObject());
+    GameObject* go = new GameObject();
     go->box.x = center.x;
     go->box.y = center.y;
 
@@ -96,7 +96,7 @@ void Minion::Shoot(Vec2 target) {
     true));
 
 
-    Game::GetInstance().GetState().AddObject(go);
+    Game::GetInstance().GetCurrentState().AddObject(go);
 
 }
 

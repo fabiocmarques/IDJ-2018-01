@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "Sound.h"
 #include "State.h"
+#include "TileSet.h"
 
 #include <cmath>
 
@@ -24,26 +25,20 @@ using namespace std;
 
 class StageState : public State {
 
-    Music music;
-    bool quitRequested;
-
-    void AddObject(float mouseX, float mouseY);
-
-    bool started;
-    vector<shared_ptr<GameObject>> objectArray;
+    Music backgroundMusic;
+    TileSet* tileSet;
 
 public:
     StageState();
     ~StageState();
-
-    bool QuitRequested();
+    
     void LoadAssets();
     void Update(float dt);
     void Render();
 
     void Start();
-    weak_ptr<GameObject> AddObject(shared_ptr<GameObject> go);
-    weak_ptr<GameObject> GetObjectPtr(GameObject* go);
+    void Pause();
+    void Resume();
 };
 
 

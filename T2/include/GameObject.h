@@ -44,9 +44,4 @@ public:
     double angleDeg;
 };
 
-
-
-
-
-
 #endif //T1_GAMEOBJECT_H

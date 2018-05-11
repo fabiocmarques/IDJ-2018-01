@@ -8,7 +8,6 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 
-#include <vector>
 #include <memory>
 #include "GameObject.h"
 #include <InputManager.h>

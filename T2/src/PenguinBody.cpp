@@ -10,6 +10,7 @@
 #include <Collider.h>
 #include <Bullet.h>
 #include <Camera.h>
+#include <Sound.h>
 #include "PenguinBody.h"
 
 #define MAX_SPEED 200
@@ -85,18 +86,18 @@ bool PenguinBody::Is(string type) {
 }
 
 void PenguinBody::Start() {
-    shared_ptr<GameObject> go(new GameObject());
+    GameObject* go = new GameObject();
     Vec2 center = associated.box.GetCenter();
-    weak_ptr<GameObject> body = Game::GetInstance().GetState().GetObjectPtr(&associated);
+    weak_ptr<GameObject> body = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
 
     go->box.x = center.x;
     go->box.y = center.y;
     go->AddComponent(new PenguinCannon(*go, body));
     //go->AddComponent(new CameraFollower(*go, true));
 
-    Game::GetInstance().GetState().AddObject(go);
+    Game::GetInstance().GetCurrentState().AddObject(go);
 
-    pcannon = Game::GetInstance().GetState().GetObjectPtr(go.get());
+    pcannon = Game::GetInstance().GetCurrentState().GetObjectPtr(go);
 }
 
 PenguinBody::PenguinBody(GameObject &associated) : Component(associated), speed(0, 0), linearSpeed
@@ -131,7 +132,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
             Camera::Unfollow();
 
             Vec2 center = associated.box.GetCenter();
-            shared_ptr<GameObject> go(new GameObject());
+            GameObject* go = new GameObject();
 
             Sprite* spr = new Sprite(*go, "assets/img/penguindeath.png", 5, 0.4, 2);
             go->box.x = center.x;
@@ -144,7 +145,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
             boom->Play(1);
 
             //cout << "Shoot" << endl;
-            Game::GetInstance().GetState().AddObject(go);
+            Game::GetInstance().GetCurrentState().AddObject(go);
 
             pcannon.lock()->RequestDelete();
             associated.RequestDelete();

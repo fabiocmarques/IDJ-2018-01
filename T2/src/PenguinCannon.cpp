@@ -69,7 +69,7 @@ void PenguinCannon::Shoot() {
 
     Vec2 center = associated.box.GetCenter();
 
-    shared_ptr<GameObject> go(new GameObject());
+    GameObject* go = new GameObject();
     go->box.x = center.x + (associated.box.w / 2) * sin(angle);
     go->box.y = center.y + (associated.box.w / 2) * cos(angle);
 
@@ -77,5 +77,5 @@ void PenguinCannon::Shoot() {
                                 0.3, false));
 
     //cout << "Shoot" << endl;
-    Game::GetInstance().GetState().AddObject(go);
+    Game::GetInstance().GetCurrentState().AddObject(go);
 }
