@@ -4,6 +4,7 @@
 
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
 
 #include <Resources.h>
 #include <InputManager.h>
@@ -58,8 +59,7 @@ Game::Game(string title, int width, int height) : frameStart(0), dt(0) {
     Mix_AllocateChannels(32);
 
     // Inicializando a janela
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
-                              0);
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     if (window == nullptr) {
         cout << "Fail on creating window.";
         exit(1);
@@ -69,6 +69,11 @@ Game::Game(string title, int width, int height) : frameStart(0), dt(0) {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == nullptr) {
         cout << "Fail on creating renderer.";
+        exit(1);
+    }
+
+    if(TTF_Init() != 0){
+        cout << "Fail on TTF Init.";
         exit(1);
     }
 
@@ -89,6 +94,7 @@ Game::~Game() {
     Resources::ClearImages();
     Resources::ClearMusics();
     Resources::ClearSounds();
+    Resources::ClearFonts();
 
     // Para o audio
     Mix_CloseAudio();
@@ -100,6 +106,8 @@ Game::~Game() {
     // Destroi janela e renderer
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+
+    TTF_Quit();
 
     // Encerra SDL
     SDL_Quit();

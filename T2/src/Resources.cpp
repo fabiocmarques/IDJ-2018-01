@@ -10,6 +10,7 @@ using namespace std;
 unordered_map<string, SDL_Texture*> Resources::imageTable = *new unordered_map<string, SDL_Texture*>;
 unordered_map<std::string, Mix_Music*> Resources::musicTable = *new unordered_map<std::string, Mix_Music*>;
 unordered_map<std::string, Mix_Chunk*> Resources::soundTable = *new unordered_map<std::string, Mix_Chunk*>;
+unordered_map<std::string, TTF_Font*> Resources::fontTable = *new unordered_map<std::string, TTF_Font*>;
 
 SDL_Texture *Resources::GetImage(string file) {
     SDL_Texture* tex = nullptr;
@@ -98,4 +99,34 @@ void Resources::ClearSounds() {
     }
 
     soundTable.clear();
+}
+
+TTF_Font* Resources::GetFont(string file, int size) {
+    TTF_Font* font = nullptr;
+    string key = file+to_string(size);
+    unordered_map<string, TTF_Font*>::const_iterator iterator = fontTable.find(key);
+
+    if(iterator == fontTable.end()){
+        font = TTF_OpenFont(file.c_str(), size);
+        if(font == nullptr){
+            cout << "Erro: " << SDL_GetError() << endl;
+            cout << "Fail to open the image: " << file << " .";
+            exit(1);
+        }
+
+        fontTable.emplace(key, font);
+        return fontTable.at(key);
+    } else{
+        return iterator->second;
+    }
+}
+
+void Resources::ClearFonts() {
+
+    for(auto it = fontTable.begin(); it != fontTable.end(); ){
+        TTF_CloseFont(it->second);
+        it = fontTable.erase(it);
+    }
+
+    fontTable.clear();
 }

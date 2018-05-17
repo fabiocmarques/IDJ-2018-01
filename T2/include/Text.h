@@ -15,18 +15,6 @@ using namespace std;
 
 class Text : public Component{
 
-    TTF_Font* font;
-    SDL_Texture* texture;
-
-    string text;
-    TextStyle style;
-    string fontFile;
-    int fontSize;
-    SDL_Color color;
-
-
-    void RemakeTexture();
-
 public:
     enum TextStyle{
         SOLID,
@@ -47,6 +35,18 @@ public:
     void SetFontFile(string fontFile);
     void SetFontSize(int fontSize);
 
+private:
+    TTF_Font* font;
+    SDL_Texture* texture;
+
+    string text;
+    TextStyle style;
+    string fontFile;
+    int fontSize;
+    SDL_Color color;
+
+
+    void RemakeTexture();
 
 };
 

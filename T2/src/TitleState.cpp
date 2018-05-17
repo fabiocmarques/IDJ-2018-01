@@ -7,6 +7,7 @@
 #include <Sprite.h>
 #include <CameraFollower.h>
 #include <StageState.h>
+#include <Text.h>
 
 TitleState::TitleState() : State() {
     shared_ptr<GameObject> go(new GameObject());
@@ -20,6 +21,14 @@ TitleState::TitleState() : State() {
     go->box.w = spr->GetWidth();
 
     objectArray.emplace_back(go);
+
+    shared_ptr<GameObject> go2(new GameObject());
+    go2->box.x = 400;
+    go2->box.y = 400;
+    Text* txt = new Text(*go, "./assets/font/CallMeMaybe.ttf", 12, Text::SOLID, "Press SPACE to start!", {255, 0, 0, 255});
+    go->AddComponent(txt);
+
+    objectArray.emplace_back(go2);
 }
 
 TitleState::~TitleState() {
@@ -46,6 +55,7 @@ void TitleState::Update(float dt) {
         StageState* stst = new StageState();
         Game::GetInstance().Push(stst);
     }
+
 }
 
 void TitleState::Render() {
