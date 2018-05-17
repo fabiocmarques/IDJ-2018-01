@@ -6,12 +6,13 @@
 #include <string>
 #include <Game.h>
 #include <StageState.h>
+#include <TitleState.h>
 
 using namespace std;
 
 int main(int argc, char** argv){
     Game& g = Game::GetInstance();
-    g.Push(new StageState());
+    g.Push(new TitleState());
     g.Run();
 
     return 0;

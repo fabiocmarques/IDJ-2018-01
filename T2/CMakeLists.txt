@@ -40,4 +40,5 @@ add_executable(140039082_FabioMarques src/main.cpp
     src/Collider.cpp include/Collider.h include/Collision.h 
     src/Being.cpp include/Being.h 
     src/Timer.cpp include/Timer.h
-    src/State.cpp include/State.h)
+    src/State.cpp include/State.h
+    src/TitleState.cpp include/TitleState.h)

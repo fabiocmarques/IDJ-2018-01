@@ -101,12 +101,12 @@ void Alien::Start() {
         weak_ptr<GameObject> alienPtr = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
 
         for (int angle = 0, i = 0; angle < 360; angle += angleStep, ++i) {
-            shared_ptr<GameObject> go = shared_ptr<GameObject>(new GameObject());
+            GameObject* go = new GameObject();
             go->AddComponent(new Minion(*go, alienPtr, angle));
 
-            Game::GetInstance().GetCurrentState().AddObject(go.get());
-
-            minionArray[i] = weak_ptr<GameObject>(go);
+            Game::GetInstance().GetCurrentState().AddObject(go);
+            
+            minionArray[i] =  Game::GetInstance().GetCurrentState().GetObjectPtr(go);
         }
 
 

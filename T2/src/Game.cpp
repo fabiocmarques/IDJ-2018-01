@@ -107,7 +107,8 @@ Game::~Game() {
 }
 
 State& Game::GetCurrentState() {
-    return *(stateStack.top().get());
+    auto top = stateStack.top().get();
+    return *top;
 }
 
 SDL_Renderer* Game::GetRenderer() {
@@ -124,7 +125,7 @@ void Game::Run() {
     stateStack.emplace(storedState);
     storedState = nullptr;
 
-    while (!stateStack.empty() && stateStack.top()->QuitRequested()) {
+    while (!stateStack.empty() && !stateStack.top()->QuitRequested()) {
 
         if(stateStack.top()->PopRequested()){
             stateStack.pop();
