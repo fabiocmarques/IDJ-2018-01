@@ -61,12 +61,22 @@ void PenguinBody::Update(float dt) {
     }
     
     associated.angleDeg = angle*180/PI;
+    Vec2 center = associated.box.GetCenter();
     
     speed.x = linearSpeed*cos(angle);
-    associated.box.x += speed.x;
+    if((center.x <= 0 && speed.x < 0) || (center.x >= 1408 && speed.x > 0)){
+        associated.box.x += 0;
+    } else{
+        associated.box.x += speed.x;
+    }
+    
 
     speed.y = linearSpeed*sin(angle);
-    associated.box.y += speed.y;
+    if((center.y <= 0 && speed.y < 0) || (center.y >= 1280 && speed.y > 0)){
+        associated.box.y += 0;
+    } else{
+        associated.box.y += speed.y;
+    }
     
     if(hp <= 0){
         pcannon.lock()->RequestDelete();

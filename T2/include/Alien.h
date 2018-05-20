@@ -11,7 +11,7 @@
 #include "Component.h"
 #include "Being.h"
 
-#define COOLDOWN 4
+#define COOLDOWN 3
 
 using namespace std;
 
@@ -29,6 +29,8 @@ class Alien : public Component, public Being {
     AlienState state;
     Timer restTimer;
     Vec2 destination;
+    
+    float timeOffset = 0;
 
     void Shoot(Vec2 tg);
 public:
@@ -39,7 +41,7 @@ public:
     bool Is(string type) override;
     void Start() override;
 
-    Alien(GameObject& associated, int nMinions);
+    Alien(GameObject& associated, int nMinions, float offset);
     ~Alien();
 
     void NotifyCollision(GameObject& other) override;

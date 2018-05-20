@@ -42,4 +42,5 @@ add_executable(140039082_FabioMarques src/main.cpp
     src/Timer.cpp include/Timer.h
     src/State.cpp include/State.h
     src/TitleState.cpp include/TitleState.h
-    src/Text.cpp include/Text.h)
+    src/Text.cpp include/Text.h 
+    src/EndState.cpp include/EndState.h src/GameData.cpp include/GameData.h)

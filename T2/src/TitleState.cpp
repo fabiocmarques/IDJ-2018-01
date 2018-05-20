@@ -6,7 +6,6 @@
 #include <State.h>
 #include <Sprite.h>
 #include <CameraFollower.h>
-#include <StageState.h>
 #include <Text.h>
 
 TitleState::TitleState() : State() {
@@ -23,10 +22,11 @@ TitleState::TitleState() : State() {
     objectArray.emplace_back(go);
 
     shared_ptr<GameObject> go2(new GameObject());
-    go2->box.x = 400;
-    go2->box.y = 400;
-    Text* txt = new Text(*go, "./assets/font/CallMeMaybe.ttf", 12, Text::SOLID, "Press SPACE to start!", {255, 0, 0, 255});
-    go->AddComponent(txt);
+    go2->box.x = 0;
+    go2->box.y = 0;
+    Text* txt = new Text(*go2, "./assets/font/CallMeMaybe.ttf", 24, Text::BLENDED, "Press SPACE to start!", 
+    {255, 0, 0, 255}, 0, 100);
+    go2->AddComponent(txt);
 
     objectArray.emplace_back(go2);
 }
@@ -52,9 +52,11 @@ void TitleState::Update(float dt) {
     }
     
     if (IM.KeyPress(SDLK_SPACE)) {
-        StageState* stst = new StageState();
-        Game::GetInstance().Push(stst);
+        Game::GetInstance().Push("StageState");
+        return;
     }
+    
+    State::UpdateArray(dt);
 
 }
 

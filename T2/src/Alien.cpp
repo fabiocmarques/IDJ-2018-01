@@ -11,6 +11,7 @@
 #include <Bullet.h>
 #include <PenguinBody.h>
 #include <Sound.h>
+#include <GameData.h>
 #include "Alien.h"
 
 #define ROT_SPEED 0.15
@@ -28,11 +29,11 @@ void Alien::Update(float dt) {
         associated.angleDeg += 360;
     }
 
-    if(PenguinBody::player != nullptr){
+    if (PenguinBody::player != nullptr) {
         if (state == RESTING) {
             restTimer.Update(dt);
 
-            if (restTimer.Get() >= COOLDOWN) {
+            if (restTimer.Get() >= COOLDOWN + timeOffset) {
                 destination = PenguinBody::player->GetPosition();
 
                 if (speed.Mag() == 0) {
@@ -63,7 +64,7 @@ void Alien::Update(float dt) {
                 restTimer.Restart();
                 state = RESTING;
 
-            } else{
+            } else {
                 associated.box.x += (abs(destination.x - center.x) < abs(speed.x * dt) ?
                                      (destination.x - center.x) :
                                      speed.x * dt);
@@ -101,12 +102,12 @@ void Alien::Start() {
         weak_ptr<GameObject> alienPtr = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
 
         for (int angle = 0, i = 0; angle < 360; angle += angleStep, ++i) {
-            GameObject* go = new GameObject();
+            GameObject *go = new GameObject();
             go->AddComponent(new Minion(*go, alienPtr, angle));
 
             Game::GetInstance().GetCurrentState().AddObject(go);
-            
-            minionArray[i] =  Game::GetInstance().GetCurrentState().GetObjectPtr(go);
+
+            minionArray[i] = Game::GetInstance().GetCurrentState().GetObjectPtr(go);
         }
 
 
@@ -114,25 +115,27 @@ void Alien::Start() {
 
 }
 
-Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(*new Vec2()), hp(100),
-                                                     minionArray(nMinions), state(RESTING), restTimer(*new Timer()),
-                                                     destination({0, 0}) {
+Alien::Alien(GameObject &associated, int nMinions, float offset) : Component(associated), speed(*new Vec2()),
+                                                                 hp(100),
+                                                                 minionArray(nMinions), state(RESTING),
+                                                                 restTimer(*new Timer()),
+                                                                 destination({0, 0}), timeOffset(offset){
 
-    ++(Alien::alienCount);
+                ++(Alien::alienCount);
 
-    Sprite *spr = new Sprite(associated, "assets/img/alien.png");
-    associated.AddComponent(spr);
-    associated.box.h = spr->GetHeight();
-    associated.box.w = spr->GetWidth();
+                Sprite *spr = new Sprite(associated, "assets/img/alien.png");
+                associated.AddComponent(spr);
+                associated.box.h = spr->GetHeight();
+                associated.box.w = spr->GetWidth();
 
-    associated.SetCenter();
+                associated.SetCenter();
 
-    associated.angleDeg = 0;
+                associated.angleDeg = 0;
 
-    associated.AddComponent(new Collider(associated));
-    //spr->SetScaleX(2, 2);
+                associated.AddComponent(new Collider(associated));
+                //spr->SetScaleX(2, 2);
 
-}
+        }
 
 Alien::~Alien() {
     //cout << "Alien sumindo." << endl;
@@ -157,7 +160,7 @@ void Alien::NotifyCollision(GameObject &other) {
 
         if (hp <= 0) {
             Vec2 center = associated.box.GetCenter();
-            GameObject* go = new GameObject();
+            GameObject *go = new GameObject();
 
             Sprite *spr = new Sprite(*go, "assets/img/aliendeath.png", 4, 0.4, 1.6);
             go->box.x = center.x;
@@ -165,7 +168,7 @@ void Alien::NotifyCollision(GameObject &other) {
             go->SetCenter();
             go->AddComponent(spr);
 
-            Sound* boom = new Sound(*go, "assets/audio/boom.wav");
+            Sound *boom = new Sound(*go, "assets/audio/boom.wav");
             go->AddComponent(boom);
             boom->Play(1);
 

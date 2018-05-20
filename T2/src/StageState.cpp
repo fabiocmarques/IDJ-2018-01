@@ -7,8 +7,8 @@
 #include <TileMap.h>
 #include <Alien.h>
 #include <PenguinBody.h>
+#include <GameData.h>
 #include "StageState.h"
-
 
 StageState::StageState() : State() {
     shared_ptr<GameObject> go(new GameObject());
@@ -34,15 +34,19 @@ StageState::StageState() : State() {
     go2->box.y = 0;
 
     objectArray.emplace_back(go2);
+    
+    int alienAmount = rand() % 3 + 4;
+    for (int i = 0; i < alienAmount; ++i) {
+        GameObject* go3 = new GameObject();
+        go3->box.x += rand()%1408;
+        go3->box.y += rand()%1280;
+        int timeOffset = (rand()%4001)/1000;
+        Alien *a = new Alien(*go3, 6, timeOffset);
+        go3->AddComponent(a);
+        //go3->AddComponent(new CameraFollower(*go3, true));
 
-    shared_ptr<GameObject> go3(new GameObject());
-    go3->box.x += 512;
-    go3->box.y += 300;
-    Alien *a = new Alien(*go3, 6);
-    go3->AddComponent(a);
-    //go3->AddComponent(new CameraFollower(*go3, true));
-
-    objectArray.emplace_back(go3);
+        objectArray.emplace_back(shared_ptr<GameObject>(go3));
+    }
 
 
     shared_ptr<GameObject> go4(new GameObject());
@@ -74,6 +78,20 @@ void StageState::LoadAssets() {
 void StageState::Update(float dt) {
     if(!started){
         Start();
+    }
+
+    if(Alien::alienCount <= 0){
+        GameData::playerVictory = true;
+        PopRequested();
+        Game::GetInstance().Push("EndState");
+        return;
+    }
+
+    if(PenguinBody::player == nullptr){
+        GameData::playerVictory = false;
+        PopRequested();
+        Game::GetInstance().Push("EndState");
+        return;
     }
     
     InputManager IM = InputManager::GetInstance();

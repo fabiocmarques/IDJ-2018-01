@@ -9,6 +9,8 @@
 #include <Resources.h>
 #include <InputManager.h>
 #include <StageState.h>
+#include <EndState.h>
+#include <TitleState.h>
 #include "../include/Game.h"
 
 Game *Game::instance = nullptr;
@@ -170,7 +172,14 @@ float Game::GetDeltaTime() {
     return dt;
 }
 
-void Game::Push(State *state) {
-    storedState = state;
+void Game::Push(string type) {
+    if(type == "EndState"){
+        storedState = new EndState();
+    } else if(type == "TitleState"){
+        storedState = new TitleState();
+    }else if(type == "StageState"){
+        storedState = new StageState();
+    }
+    
 }
       

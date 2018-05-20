@@ -43,7 +43,7 @@ public:
     SDL_Renderer* GetRenderer();
     State& GetCurrentState();
 
-    void Push(State* state);
+    void Push(string type);
 
     void Run();
 

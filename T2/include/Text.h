@@ -5,6 +5,9 @@
 #ifndef T2_TEXT_H
 #define T2_TEXT_H
 
+#define STD_WIDTH 1024
+#define STD_HEIGHT 600
+
 #define INCLUDE_SDL
 #define INCLUDE_SDL_TTF
 
@@ -22,7 +25,8 @@ public:
         BLENDED
     };
 
-    Text(GameObject& associated, string fontFile, int fontSize, TextStyle style, string text, SDL_Color color);
+    Text(GameObject& associated, string fontFile, int fontSize, TextStyle style, string text, SDL_Color 
+    color, int OffsetX = 0, int OffsetY = 0);
     ~Text();
 
     void Update(float dt) override;
@@ -44,6 +48,13 @@ private:
     string fontFile;
     int fontSize;
     SDL_Color color;
+    
+    bool on;
+    Uint8 alpha;
+    Timer timer;
+    
+    int OffsetX;
+    int OffsetY;
 
 
     void RemakeTexture();

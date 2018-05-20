@@ -7,12 +7,14 @@
 #include <Game.h>
 #include <StageState.h>
 #include <TitleState.h>
+#include <time.h>
 
 using namespace std;
 
 int main(int argc, char** argv){
+    srand (time(NULL));
     Game& g = Game::GetInstance();
-    g.Push(new TitleState());
+    g.Push("TitleState");
     g.Run();
 
     return 0;
